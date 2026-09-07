@@ -6,24 +6,14 @@ import { LinkSection } from "../links/LinkSection";
 import { FooterComponent } from "./Footer";
 
 import { organizationPhoto } from "../../config/profile";
-import { mainLinks } from "../../config/links";
 
 export const MainContent = ({ onExternalLink }) => {
-  const aspirationLink = mainLinks.find(
-    (link) => link.id === "aspirasi-fkuntar",
-  );
-
   const handleExternalLink = (link) => {
     if (!link?.url) return;
 
     onExternalLink?.(link.title, link.url, link.type);
   };
 
-  const handleAspirationClick = () => {
-    if (!aspirationLink) return;
-
-    handleExternalLink(aspirationLink);
-  };
 
   return (
     <main
@@ -75,21 +65,6 @@ export const MainContent = ({ onExternalLink }) => {
         />
       </section>
 
-      {/* Aspiration */}
-      <section
-        className="
-          px-5
-          pt-8
-
-          sm:px-8
-          sm:pt-10
-
-          lg:px-10
-        "
-      >
-        <AspirationSection onClick={handleAspirationClick} />
-      </section>
-
       {/* Vision, Mission & Function */}
       <section
         className="
@@ -103,6 +78,21 @@ export const MainContent = ({ onExternalLink }) => {
         "
       >
         <VisionMissionCarousel />
+      </section>
+
+      {/* Aspiration */}
+      <section
+        className="
+          px-5
+          pt-8
+
+          sm:px-8
+          sm:pt-10
+
+          lg:px-10
+        "
+      >
+        <AspirationSection onClick={handleExternalLink} />
       </section>
 
       {/* Links */}

@@ -8,26 +8,18 @@ export const LinkSection = ({ onLinkClick }) => {
   /*
    * Aspirasi sudah memiliki primary CTA
    * sendiri pada AspirationSection.
+   *
+   * Google Drive tidak ditampilkan di LinkSection
+   * karena akan diakses melalui modal pada AspirationSection.
    */
-  const secondaryLinks = mainLinks.filter(
-    (link) => link.id !== "aspirasi-fkuntar",
+  const contactLinks = mainLinks.filter(
+    (link) =>
+      link.id !== "aspirasi-fkuntar" && !link.id.startsWith("google-drive-"),
   );
 
-  const contactLinks = secondaryLinks.filter(
-    (link) => !link.id.startsWith("google-drive-"),
-  );
+  const informationLinks = [...contactLinks, ...socialLinks];
 
-  const driveLinks = secondaryLinks.filter((link) =>
-    link.id.startsWith("google-drive-"),
-  );
-
-  const hasContactLinks = contactLinks.length > 0;
-
-  const hasDriveLinks = driveLinks.length > 0;
-
-  const hasSocialLinks = socialLinks.length > 0;
-
-  if (!hasContactLinks && !hasDriveLinks && !hasSocialLinks) {
+  if (informationLinks.length === 0) {
     return null;
   }
 
@@ -47,7 +39,7 @@ export const LinkSection = ({ onLinkClick }) => {
             sm:text-xs
           "
         >
-          Informasi & Media
+          Informasi Kontak
         </p>
 
         <h2
@@ -82,7 +74,7 @@ export const LinkSection = ({ onLinkClick }) => {
             sm:text-base
           "
         >
-          Temukan informasi dan kanal resmi DPM FK UNTAR melalui tautan berikut.
+          Hubungi dan ikuti kanal resmi DPM FK UNTAR melalui informasi berikut.
         </p>
       </div>
 
@@ -92,213 +84,72 @@ export const LinkSection = ({ onLinkClick }) => {
 
           flex
           flex-col
-          gap-8
+          gap-3
         "
       >
-        {/* Contact links */}
-        {hasContactLinks && (
-          <LinkGroup title="Kontak & Informasi">
-            {contactLinks.map((link) => (
-              <MainLinkItem key={link.id} link={link} onClick={onLinkClick} />
-            ))}
-          </LinkGroup>
-        )}
-
-        {/* Google Drive */}
-        {hasDriveLinks && (
-          <LinkGroup title="Dokumen & Drive">
-            {driveLinks.map((link) => (
-              <DriveLinkItem key={link.id} link={link} onClick={onLinkClick} />
-            ))}
-          </LinkGroup>
-        )}
-
-        {/* Social links */}
-        {hasSocialLinks && (
-          <LinkGroup title="Media Sosial">
-            {socialLinks.map((link) => (
-              <SocialLinkItem key={link.id} link={link} onClick={onLinkClick} />
-            ))}
-          </LinkGroup>
-        )}
+        {informationLinks.map((link) => (
+          <ContactLinkItem key={link.id} link={link} onClick={onLinkClick} />
+        ))}
       </div>
     </section>
   );
 };
 
-const LinkGroup = ({ title, children }) => {
-  return (
-    <div>
-      <p
-        className="
-          mb-3
-
-          text-xs
-          font-bold
-          uppercase
-          tracking-[0.14em]
-
-          text-brand-muted
-        "
-      >
-        {title}
-      </p>
-
-      <div
-        className="
-          flex
-          flex-col
-          gap-3
-        "
-      >
-        {children}
-      </div>
-    </div>
-  );
-};
-
-const MainLinkItem = ({ link, onClick }) => {
-  const Icon = link.icon;
-
-  return (
-    <button
-      type="button"
-      onClick={() => onClick?.(link)}
-      className="
-        group
-
-        flex
-        min-h-20
-        w-full
-        items-center
-        gap-4
-
-        rounded-2xl
-
-        border
-        border-brand-dark/10
-
-        bg-brand-card
-
-        px-4
-        py-4
-
-        text-left
-
-        transition
-        duration-200
-
-        hover:border-brand-primary/30
-        hover:bg-white/70
-
-        focus-visible:outline-none
-        focus-visible:ring-2
-        focus-visible:ring-brand-primary
-        focus-visible:ring-offset-2
-        focus-visible:ring-offset-brand-bg
-
-        sm:px-5
-      "
-    >
-      <LinkIcon
-        icon={Icon}
-        className="
-          bg-brand-secondary/55
-          text-brand-primary
-
-          group-hover:bg-brand-secondary
-        "
-      />
-
-      <LinkContent link={link} />
-
-      <LinkArrow />
-    </button>
-  );
-};
-
-const DriveLinkItem = ({ link, onClick }) => {
-  const Icon = link.icon;
-
-  return (
-    <button
-      type="button"
-      onClick={() => onClick?.(link)}
-      className="
-        group
-
-        flex
-        min-h-20
-        w-full
-        items-center
-        gap-4
-
-        rounded-2xl
-
-        border
-        border-brand-dark/10
-
-        bg-brand-card
-
-        px-4
-        py-4
-
-        text-left
-
-        transition
-        duration-200
-
-        hover:border-brand-primary/30
-        hover:bg-white/70
-
-        focus-visible:outline-none
-        focus-visible:ring-2
-        focus-visible:ring-brand-primary
-        focus-visible:ring-offset-2
-        focus-visible:ring-offset-brand-bg
-
-        sm:px-5
-      "
-    >
-      <LinkIcon
-        icon={Icon}
-        className="
-          bg-brand-primary/12
-          text-brand-dark
-
-          group-hover:bg-brand-primary/18
-        "
-      />
-
-      <LinkContent link={link} />
-
-      <LinkArrow />
-    </button>
-  );
-};
-
-const SocialLinkItem = ({ link, onClick }) => {
+const ContactLinkItem = ({ link, onClick }) => {
   const Icon = link.icon;
 
   const isInstagram = link.variant === "instagram";
 
-  const iconStyles = isInstagram
-    ? `
-        bg-brand-accent/20
-        text-brand-accent
+  const isTikTok = link.variant === "tiktok";
 
-        group-hover:bg-brand-accent/30
-      `
-    : `
-        bg-brand-dark/10
-        text-brand-dark
+  let iconStyles = `
+    bg-brand-secondary/55
+    text-brand-primary
 
-        group-hover:bg-brand-dark/15
-      `;
+    group-hover:bg-brand-secondary
+  `;
 
-  const hoverBorderStyles = isInstagram
-    ? "hover:border-brand-accent/40"
-    : "hover:border-brand-dark/30";
+  let hoverBorderStyles = "hover:border-brand-primary/30";
+
+  let arrowStyles = `
+    text-brand-muted
+
+    group-hover:text-brand-primary
+  `;
+
+  if (isInstagram) {
+    iconStyles = `
+      bg-brand-accent/20
+      text-brand-accent
+
+      group-hover:bg-brand-accent/30
+    `;
+
+    hoverBorderStyles = "hover:border-brand-accent/40";
+
+    arrowStyles = `
+      text-brand-accent/70
+
+      group-hover:text-brand-accent
+    `;
+  }
+
+  if (isTikTok) {
+    iconStyles = `
+      bg-brand-dark/10
+      text-brand-dark
+
+      group-hover:bg-brand-dark/15
+    `;
+
+    hoverBorderStyles = "hover:border-brand-dark/30";
+
+    arrowStyles = `
+      text-brand-muted
+
+      group-hover:text-brand-dark
+    `;
+  }
 
   return (
     <button
@@ -357,19 +208,7 @@ const SocialLinkItem = ({ link, onClick }) => {
           group-hover:-translate-y-0.5
           group-hover:translate-x-0.5
 
-          ${
-            isInstagram
-              ? `
-                text-brand-accent/70
-
-                group-hover:text-brand-accent
-              `
-              : `
-                text-brand-muted
-
-                group-hover:text-brand-dark
-              `
-          }
+          ${arrowStyles}
         `}
       />
     </button>
@@ -443,26 +282,5 @@ const LinkContent = ({ link }) => {
         </span>
       )}
     </span>
-  );
-};
-
-const LinkArrow = () => {
-  return (
-    <FiArrowUpRight
-      size={18}
-      aria-hidden="true"
-      className="
-        shrink-0
-
-        text-brand-muted
-
-        transition
-        duration-200
-
-        group-hover:-translate-y-0.5
-        group-hover:translate-x-0.5
-        group-hover:text-brand-primary
-      "
-    />
   );
 };
