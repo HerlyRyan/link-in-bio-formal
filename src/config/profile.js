@@ -5,7 +5,12 @@ export const profileConfig = {
     "Dewan Perwakilan Mahasiswa Fakultas Kedokteran Universitas Tarumanagara",
 
   logo: {
-    src: "/icons/dpm-logo.png",
+    src: "/icons/fkuntar.webp",
     alt: "Logo DPM FK UNTAR",
   },
+};
+
+export const organizationPhoto = {
+  src: "/photo-section/dpm-photo.webp",
+  alt: "DPM FK UNTAR",
 };

@@ -1,61 +1,82 @@
+import { profileConfig } from "../../config/profile";
+
 export const FooterComponent = () => {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer
       className="
-        w-full
-        px-4
-        py-4
+        border-t
+        border-brand-dark/10
+        pt-8
         text-center
       "
     >
       <div
         className="
           mx-auto
-          h-px
-          w-16
-          bg-brand-text/15
-        "
-        aria-hidden="true"
-      />
-
-      <p
-        className="
-          mt-3
-          text-[11px]
-          font-semibold
-          leading-5
-          text-brand-text/80
-
-          sm:text-xs
+          flex
+          max-w-xl
+          flex-col
+          items-center
         "
       >
-        &copy; {currentYear}{" "}
-        <span
+        <img
+          src={profileConfig.logo.src}
+          alt=""
+          aria-hidden="true"
           className="
+            h-10
+            w-10
+            object-contain
+            opacity-80
+
+            rounded-full
+
+            border
+          border-brand-dark/15
+          bg-white/70
+
+            p-1
+          "
+        />
+
+        <p
+          className="
+            mt-4
+            text-sm
             font-bold
             text-brand-text
           "
         >
-          DPM FK UNTAR
-        </span>
-        . All rights reserved.
-      </p>
+          {profileConfig.name}
+        </p>
 
-      <p
-        className="
-          mt-0.5
-          text-[10px]
-          font-semibold
-          tracking-[0.04em]
-          text-brand-text/65
+        <p
+          className="
+            mt-2
+            text-xs
+            font-medium
+            leading-5
+            text-brand-muted
+          "
+        >
+          Dewan Perwakilan Mahasiswa
+          <br />
+          Fakultas Kedokteran Universitas Tarumanagara
+        </p>
 
-          sm:text-[11px]
-        "
-      >
-        Universitas Tarumanagara
-      </p>
+        <p
+          className="
+            mt-6
+            text-xs
+            font-medium
+            text-brand-muted/80
+          "
+        >
+          © {currentYear} {profileConfig.name}. All rights reserved.
+        </p>
+      </div>
     </footer>
   );
 };

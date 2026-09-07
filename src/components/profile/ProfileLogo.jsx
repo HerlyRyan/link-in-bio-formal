@@ -5,59 +5,62 @@ export const ProfileLogo = ({ src, alt }) => {
 
   return (
     <motion.div
-      variants={{
-        hidden: {
-          opacity: 0,
-          scale: shouldReduceMotion ? 1 : 0.94,
-        },
-        visible: {
-          opacity: 1,
-          scale: 1,
-          transition: {
-            duration: 0.4,
-            ease: "easeOut",
-          },
-        },
+      initial={
+        shouldReduceMotion
+          ? false
+          : {
+              opacity: 0,
+              scale: 0.96,
+              y: 6,
+            }
+      }
+      animate={{
+        opacity: 1,
+        scale: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: shouldReduceMotion ? 0 : 0.4,
+        ease: "easeOut",
       }}
       className="
-        relative
         flex
+        h-24
+        w-24
         items-center
         justify-center
+
+        overflow-hidden
+        rounded-full
+
+        border
+        border-brand-dark/15
+
+        bg-white/70
+
+        p-1
+
+        shadow-[0_4px_14px_rgba(32,40,8,0.06)]
+
+        backdrop-blur-sm
+
+        sm:h-28
+        sm:w-28
       "
     >
-      <div
+      <img
+        src={src}
+        alt={alt}
+        draggable={false}
+        decoding="async"
         className="
-          relative
+          h-full
+          w-full
 
-          h-24
-          w-24
-
-          overflow-hidden
-          rounded-full
-
-          border-2
-          border-brand-text/85
-
-          bg-white
-
-          shadow-[3px_3px_0_0_var(--color-brand-text)]
-
-          sm:h-28
-          sm:w-28
+          select-none
+          object-contain
         "
-      >
-        <img
-          src={src}
-          alt={alt}
-          className="
-            h-full
-            w-full
-            object-cover
-          "
-          decoding="async"
-        />
-      </div>
+      />
     </motion.div>
   );
 };

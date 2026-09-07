@@ -1,53 +1,72 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 // src/hooks/useGallery.js
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useGallery = (items = []) => {
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const isOpen = activeIndex !== null;
+  const totalItems = items.length;
 
-  const activeItem =
-    activeIndex !== null ? items[activeIndex] : null;
+  const activeItem = totalItems > 0 ? items[activeIndex] : null;
 
-  const openGallery = useCallback((index) => {
-    setActiveIndex(index);
-  }, []);
+  const openGallery = useCallback(
+    (index = 0) => {
+      if (totalItems === 0) return;
+
+      const safeIndex = (index + totalItems) % totalItems;
+
+      setActiveIndex(safeIndex);
+      setIsOpen(true);
+    },
+    [totalItems],
+  );
 
   const closeGallery = useCallback(() => {
-    setActiveIndex(null);
+    setIsOpen(false);
   }, []);
 
   const showPrevious = useCallback(() => {
-    if (items.length === 0) return;
+    if (totalItems <= 1) return;
 
-    setActiveIndex((current) => {
-      if (current === null) return 0;
-
-      return current === 0
-        ? items.length - 1
-        : current - 1;
+    setActiveIndex((currentIndex) => {
+      return (currentIndex - 1 + totalItems) % totalItems;
     });
-  }, [items.length]);
+  }, [totalItems]);
 
   const showNext = useCallback(() => {
-    if (items.length === 0) return;
+    if (totalItems <= 1) return;
 
-    setActiveIndex((current) => {
-      if (current === null) return 0;
-
-      return current === items.length - 1
-        ? 0
-        : current + 1;
+    setActiveIndex((currentIndex) => {
+      return (currentIndex + 1) % totalItems;
     });
-  }, [items.length]);
+  }, [totalItems]);
+
+  /*
+   * Protect activeIndex if the gallery data
+   * changes dynamically.
+   */
+  useEffect(() => {
+    if (totalItems === 0) {
+      setActiveIndex(0);
+      setIsOpen(false);
+      return;
+    }
+
+    if (activeIndex >= totalItems) {
+      setActiveIndex(totalItems - 1);
+    }
+  }, [activeIndex, totalItems]);
 
   return {
+    isOpen,
     activeIndex,
     activeItem,
-    isOpen,
+
     openGallery,
     closeGallery,
+
     showPrevious,
     showNext,
   };

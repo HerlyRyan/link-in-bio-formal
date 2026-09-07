@@ -1,8 +1,10 @@
+import { useRef } from "react";
+
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { createPortal } from "react-dom";
 
-import { FiAlertCircle, FiExternalLink, FiX, FiMail } from "react-icons/fi";
+import { FiAlertCircle, FiExternalLink, FiMail, FiX } from "react-icons/fi";
 
 import { useModalAccessibility } from "../../hooks/useModalAccessibility";
 
@@ -15,17 +17,19 @@ export const ExternalLinkModal = ({
   type = "external",
 }) => {
   const shouldReduceMotion = useReducedMotion();
+  const modalRef = useRef(null);
+
+  const isEmail = type === "email";
 
   useModalAccessibility({
     isOpen,
     onClose,
+    modalRef,
   });
 
   if (typeof document === "undefined") {
     return null;
   }
-
-  const isEmail = type === "email";
 
   return createPortal(
     <AnimatePresence>
@@ -35,6 +39,9 @@ export const ExternalLinkModal = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.2,
+          }}
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) {
               onClose();
@@ -49,14 +56,17 @@ export const ExternalLinkModal = ({
             items-center
             justify-center
 
-            bg-black/45
+            bg-brand-text/50
 
-            p-4
+            px-5
+            py-6
 
             backdrop-blur-sm
           "
         >
           <motion.div
+            ref={modalRef}
+            tabIndex={-1}
             role="alertdialog"
             aria-modal="true"
             aria-labelledby="external-link-title"
@@ -89,24 +99,26 @@ export const ExternalLinkModal = ({
                   }
             }
             transition={{
-              duration: 0.2,
+              duration: shouldReduceMotion ? 0 : 0.2,
               ease: "easeOut",
             }}
             className="
               relative
 
               w-full
-              max-w-sm
+              max-w-md
               overflow-hidden
 
-              rounded-2xl
+              rounded-3xl
 
-              border-2
-              border-brand-text/85
+              border
+              border-brand-dark/10
 
               bg-brand-card
 
-              shadow-[5px_5px_0_0_var(--color-brand-text)]
+              shadow-xl
+
+              focus:outline-none
             "
           >
             {/* Header */}
@@ -117,15 +129,14 @@ export const ExternalLinkModal = ({
                 justify-between
                 gap-4
 
-                border-b-2
-                border-brand-text/85
-
-                bg-brand-secondary/15
+                border-b
+                border-brand-dark/10
 
                 px-5
                 py-4
 
                 sm:px-6
+                sm:py-5
               "
             >
               <div
@@ -140,28 +151,23 @@ export const ExternalLinkModal = ({
                   aria-hidden="true"
                   className="
                     flex
-                    h-9
-                    w-9
+                    h-10
+                    w-10
                     shrink-0
                     items-center
                     justify-center
 
-                    rounded-lg
+                    rounded-xl
 
-                    border-2
-                    border-brand-text/80
+                    bg-brand-secondary/50
 
-                    bg-brand-primary
-
-                    text-white
-
-                    shadow-[2px_2px_0_0_var(--color-brand-text)]
+                    text-brand-primary
                   "
                 >
                   {isEmail ? (
-                    <FiMail size={16} />
+                    <FiMail size={18} />
                   ) : (
-                    <FiExternalLink size={16} />
+                    <FiExternalLink size={18} />
                   )}
                 </span>
 
@@ -169,9 +175,12 @@ export const ExternalLinkModal = ({
                   id="external-link-title"
                   className="
                     min-w-0
+
                     text-sm
                     font-bold
+
                     text-brand-text
+
                     sm:text-base
                   "
                 >
@@ -182,43 +191,31 @@ export const ExternalLinkModal = ({
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Tutup konfirmasi tautan eksternal"
+                aria-label="Tutup dialog"
                 className="
                   flex
-                  h-9
-                  w-9
+                  h-10
+                  w-10
                   shrink-0
                   items-center
                   justify-center
 
-                  rounded-lg
+                  rounded-full
 
-                  border-2
-                  border-brand-text/80
+                  text-brand-muted
 
-                  bg-white
+                  transition-colors
+                  duration-200
 
-                  text-brand-text
-
-                  shadow-[2px_2px_0_0_var(--color-brand-text)]
-
-                  transition-all
-                  duration-150
-
-                  hover:-translate-x-px
-                  hover:-translate-y-px
-
-                  active:translate-x-px
-                  active:translate-y-px
-                  active:shadow-none
+                  hover:bg-brand-secondary/40
+                  hover:text-brand-text
 
                   focus-visible:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-brand-primary
-                  focus-visible:ring-offset-2
                 "
               >
-                <FiX aria-hidden="true" size={18} />
+                <FiX aria-hidden="true" size={19} />
               </button>
             </header>
 
@@ -229,6 +226,7 @@ export const ExternalLinkModal = ({
                 py-5
 
                 sm:px-6
+                sm:py-6
               "
             >
               {/* Information */}
@@ -238,50 +236,47 @@ export const ExternalLinkModal = ({
                   items-start
                   gap-3
 
-                  rounded-xl
+                  rounded-2xl
 
-                  border-2
-                  border-brand-text/80
-
-                  bg-brand-secondary/15
+                  bg-brand-secondary/30
 
                   p-4
-
-                  shadow-[2px_2px_0_0_var(--color-brand-text)]
                 "
               >
                 <span
                   aria-hidden="true"
                   className="
                     flex
-                    h-8
-                    w-8
+                    h-9
+                    w-9
                     shrink-0
                     items-center
                     justify-center
 
-                    rounded-lg
+                    rounded-xl
 
-                    border-2
-                    border-brand-text/80
-
-                    bg-white
+                    bg-brand-card
 
                     text-brand-primary
                   "
                 >
-                  <FiAlertCircle size={16} />
+                  <FiAlertCircle size={17} />
                 </span>
 
                 <p
                   id="external-link-description"
                   className="
                     min-w-0
+                    pt-0.5
+
                     text-xs
                     font-medium
                     leading-5
-                    text-brand-text/80
+
+                    text-brand-muted
+
                     sm:text-sm
+                    sm:leading-6
                   "
                 >
                   {isEmail ? (
@@ -311,8 +306,9 @@ export const ExternalLinkModal = ({
                     text-[10px]
                     font-bold
                     uppercase
-                    tracking-[0.12em]
-                    text-brand-text/65
+                    tracking-[0.14em]
+
+                    text-brand-muted
                   "
                 >
                   Tujuan
@@ -327,23 +323,24 @@ export const ExternalLinkModal = ({
                     overflow-y-auto
                     break-all
 
-                    rounded-lg
+                    rounded-xl
 
-                    border-2
-                    border-brand-text/75
+                    border
+                    border-brand-dark/10
 
-                    bg-brand-bg/40
+                    bg-brand-bg/60
 
                     px-3
                     py-2.5
 
                     font-mono
                     text-[11px]
-                    leading-4
-                    text-brand-text/75
+                    leading-5
+
+                    text-brand-muted
                   "
                 >
-                  {isEmail ? linkUrl.replace(/^mailto:/, "") : linkUrl}
+                  {isEmail ? linkUrl?.replace(/^mailto:/, "") : linkUrl}
                 </div>
               </div>
             </div>
@@ -354,10 +351,10 @@ export const ExternalLinkModal = ({
                 flex
                 gap-3
 
-                border-t-2
-                border-brand-text/85
+                border-t
+                border-brand-dark/10
 
-                bg-brand-bg/60
+                bg-brand-bg/35
 
                 px-5
                 py-4
@@ -377,34 +374,28 @@ export const ExternalLinkModal = ({
 
                   rounded-lg
 
-                  border-2
-                  border-brand-text/80
+                  border
+                  border-brand-dark/15
 
-                  bg-white
+                  bg-transparent
 
-                  px-3
+                  px-4
 
-                  text-xs
+                  text-sm
                   font-semibold
+
                   text-brand-text
 
-                  shadow-[2px_2px_0_0_var(--color-brand-text)]
+                  transition-colors
+                  duration-200
 
-                  transition-all
-                  duration-150
-
-                  hover:bg-brand-secondary/15
-
-                  active:translate-x-px
-                  active:translate-y-px
-                  active:shadow-none
+                  hover:bg-brand-secondary/30
 
                   focus-visible:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-brand-primary
                   focus-visible:ring-offset-2
-
-                  sm:text-sm
+                  focus-visible:ring-offset-brand-card
                 "
               >
                 Batal
@@ -423,38 +414,33 @@ export const ExternalLinkModal = ({
 
                   rounded-lg
 
-                  border-2
-                  border-brand-text/85
-
                   bg-brand-primary
 
-                  px-3
+                  px-4
 
-                  text-xs
+                  text-sm
                   font-semibold
+
                   text-white
 
-                  shadow-[2px_2px_0_0_var(--color-brand-text)]
+                  transition-colors
+                  duration-200
 
-                  transition-all
-                  duration-150
-
-                  hover:bg-brand-primary/90
-
-                  active:translate-x-px
-                  active:translate-y-px
-                  active:shadow-none
+                  hover:bg-brand-dark
 
                   focus-visible:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-brand-primary
                   focus-visible:ring-offset-2
-
-                  sm:text-sm
+                  focus-visible:ring-offset-brand-card
                 "
               >
                 Lanjutkan
-                <FiExternalLink aria-hidden="true" size={14} />
+                {isEmail ? (
+                  <FiMail aria-hidden="true" size={15} />
+                ) : (
+                  <FiExternalLink aria-hidden="true" size={15} />
+                )}
               </button>
             </footer>
           </motion.div>

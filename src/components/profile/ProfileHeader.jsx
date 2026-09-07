@@ -1,136 +1,210 @@
-import { motion } from "framer-motion";
+// src/components/profile/ProfileHeader.jsx
 
-import { ProfileLogo } from "./ProfileLogo";
+import { motion, useReducedMotion } from "framer-motion";
+
 import { profileConfig } from "../../config/profile";
-
-import {
-  profileHeaderVariants,
-  profileItemVariants,
-} from "../../animations/variants";
+import { ProfileLogo } from "./ProfileLogo";
 
 export const ProfileHeader = () => {
+  const shouldReduceMotion = useReducedMotion();
+
   const { name, badge, description, logo } = profileConfig;
 
   return (
     <motion.header
-      variants={profileHeaderVariants}
-      initial="hidden"
-      animate="visible"
+      initial={
+        shouldReduceMotion
+          ? {
+              opacity: 0,
+            }
+          : {
+              opacity: 0,
+              y: 12,
+            }
+      }
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: shouldReduceMotion ? 0.15 : 0.45,
+        ease: "easeOut",
+      }}
       className="
-        grid
-        w-full
-        grid-cols-1
-        gap-3
+        relative
 
-        md:grid-cols-[180px_1fr]
-        md:gap-4
+        w-full
+        overflow-hidden
+
+        rounded-3xl
+
+        border
+        border-brand-dark/10
+
+        bg-brand-card/75
+
+        px-5
+        py-10
+
+        sm:px-8
+        sm:py-11
+
+        lg:px-12
+        lg:py-12
       "
     >
-      {/* Logo Card */}
-      <motion.div
-        variants={profileItemVariants}
+      {/* Decorative background */}
+      <div
+        aria-hidden="true"
         className="
-          flex
-          min-h-36
-          items-center
-          justify-center
+          pointer-events-none
 
-          rounded-2xl
-          border-2
-          border-brand-text/85
+          absolute
+          inset-0
 
-          bg-brand-card
-          p-5
-
-          shadow-[3px_3px_0_0_var(--color-brand-text)]
-
-          md:min-h-44
+          overflow-hidden
         "
       >
-        <ProfileLogo src={logo.src} alt={logo.alt} />
-      </motion.div>
+        {/* Left accent */}
+        <div
+          className="
+            absolute
 
-      {/* Identity Card */}
-      <motion.div
-        variants={profileItemVariants}
+            -bottom-24
+            -left-20
+
+            h-48
+            w-48
+
+            rounded-full
+
+            bg-brand-primary/5
+
+            blur-3xl
+          "
+        />
+
+        {/* Right accent */}
+        <div
+          className="
+            absolute
+
+            -right-20
+            -top-20
+
+            h-44
+            w-44
+
+            rounded-full
+
+            bg-brand-accent/5
+
+            blur-3xl
+          "
+        />
+      </div>
+
+      {/* Content */}
+      <div
         className="
+          relative
+          z-10
+
           flex
-          min-h-44
+          w-full
           flex-col
-          justify-center
+          items-center
 
-          rounded-2xl
-          border-2
-          border-brand-text/85
-
-          bg-brand-card
-
-          p-5
-
-          shadow-[4px_4px_0_0_var(--color-brand-text)]
-
-          sm:p-6
+          text-center
         "
       >
-        <div>
-          <span
-            className="
-              inline-flex
-              items-center
-              justify-center
+        {/* Logo */}
+        <ProfileLogo src={logo.src} alt={logo.alt} />
 
-              rounded-lg
-              border-2
-              border-brand-text/80
+        {/* Official account badge */}
+        <div
+          className="
+            mt-5
 
-              bg-brand-primary
+            inline-flex
+            min-h-8
+            items-center
+            justify-center
 
-              px-3
-              py-1.5
+            rounded-full
 
-              text-[10px]
-              font-bold
-              uppercase
-              tracking-[0.14em]
-              text-white
+            border
+            border-brand-primary/40
 
-              sm:text-[11px]
-            "
-          >
-            {badge}
-          </span>
+            bg-brand-secondary/45
+
+            px-4
+            py-1.5
+
+            text-[10px]
+            font-extrabold
+            uppercase
+            tracking-[0.18em]
+
+            text-brand-dark
+
+            sm:text-[11px]
+          "
+        >
+          {badge || "Official Account"}
         </div>
 
+        {/* Organization name */}
         <h1
           className="
-            mt-3
+            mt-4
 
-            text-2xl
-            font-bold
-            tracking-tight
+            text-3xl
+            font-extrabold
+            tracking-[-0.035em]
+
             text-brand-text
 
-            sm:text-3xl
+            sm:text-4xl
+
+            lg:text-[2.65rem]
           "
         >
           {name}
         </h1>
 
+        {/* Description */}
         <p
           className="
-            mt-3
+            mt-4
+
             max-w-xl
 
-            text-[13px]
-            leading-6
-            text-brand-text/75
+            text-sm
+            font-medium
+            leading-7
 
-            sm:text-sm
+            text-brand-muted
+
+            sm:text-base
           "
         >
           {description}
         </p>
-      </motion.div>
+
+        {/* Divider */}
+        <div
+          aria-hidden="true"
+          className="
+            mt-6
+
+            h-px
+            w-16
+
+            bg-brand-dark/20
+          "
+        />
+      </div>
     </motion.header>
   );
 };
