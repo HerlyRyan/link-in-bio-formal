@@ -1,221 +1,268 @@
+// src/components/vision/VisionMissionSlide.jsx
+
 export const VisionMissionSlide = ({ slide }) => {
-  if (!slide) return null;
+  if (!slide) {
+    return null;
+  }
 
   if (slide.type === "text") {
-    return (
-      <article>
-        <p
-          className="
-            text-[11px]
-            font-bold
-            uppercase
-            tracking-[0.18em]
-            text-brand-accent
-
-            sm:text-xs
-          "
-        >
-          {slide.eyebrow}
-        </p>
-
-        <h3
-          className="
-            mt-2
-            text-xl
-            font-bold
-            tracking-tight
-            text-brand-text
-
-            sm:text-2xl
-          "
-        >
-          {slide.title}
-        </h3>
-
-        <p
-          className="
-            mt-5
-            text-sm
-            font-medium
-            leading-7
-            text-brand-text/80
-
-            sm:text-base
-          "
-        >
-          {slide.content}
-        </p>
-      </article>
-    );
+    return <TextSlide slide={slide} />;
   }
 
   if (slide.type === "list") {
-    return (
-      <article>
-        <p
-          className="
-            text-[11px]
-            font-bold
-            uppercase
-            tracking-[0.18em]
-            text-brand-accent
+    return <ListSlide slide={slide} />;
+  }
 
-            sm:text-xs
-          "
-        >
-          {slide.eyebrow}
-        </p>
+  if (slide.type === "functions") {
+    return <FunctionsSlide slide={slide} />;
+  }
 
-        <h3
-          className="
-            mt-2
-            text-xl
-            font-bold
-            tracking-tight
-            text-brand-text
+  return null;
+};
 
-            sm:text-2xl
-          "
-        >
-          {slide.title}
-        </h3>
+/**
+ * Shared heading used by all slides.
+ */
+const SlideHeader = ({ eyebrow, title }) => {
+  return (
+    <header>
+      <p
+        className="
+          text-[10px]
+          font-bold
+          uppercase
+          tracking-[0.18em]
 
-        <ol
-          className="
-            mt-5
-            space-y-4
-          "
-        >
-          {slide.items.map((item, index) => (
-            <li
-              key={item}
-              className="
-                flex
+          text-brand-primary
+
+          sm:text-[11px]
+        "
+      >
+        {eyebrow}
+      </p>
+
+      <h3
+        className="
+          mt-2
+
+          text-xl
+          font-bold
+          tracking-[-0.025em]
+
+          text-brand-text
+
+          sm:text-2xl
+        "
+      >
+        {title}
+      </h3>
+    </header>
+  );
+};
+
+/**
+ * Vision slide.
+ */
+const TextSlide = ({ slide }) => {
+  return (
+    <article>
+      <SlideHeader eyebrow={slide.eyebrow} title={slide.title} />
+
+      <div
+        aria-hidden="true"
+        className="
+          mt-5
+
+          h-px
+          w-12
+
+          bg-brand-primary/25
+        "
+      />
+
+      <p
+        className="
+          mt-5
+
+          max-w-2xl
+
+          text-sm
+          font-medium
+          leading-7
+
+          text-brand-text/80
+
+          sm:text-base
+          sm:leading-8
+        "
+      >
+        {slide.content}
+      </p>
+    </article>
+  );
+};
+
+/**
+ * Mission slide.
+ */
+const ListSlide = ({ slide }) => {
+  return (
+    <article>
+      <SlideHeader eyebrow={slide.eyebrow} title={slide.title} />
+
+      <ol
+        className="
+          mt-6
+
+          flex
+          flex-col
+          gap-5
+        "
+      >
+        {slide.items.map((item, index) => (
+          <li
+            key={item}
+            className="
+                grid
+                grid-cols-[2.25rem_1fr]
+
                 items-start
                 gap-3
               "
-            >
-              <span
-                aria-hidden="true"
-                className="
+          >
+            <span
+              aria-hidden="true"
+              className="
                   flex
-                  h-7
-                  w-7
-                  shrink-0
+                  h-9
+                  w-9
                   items-center
                   justify-center
 
                   rounded-full
 
-                  bg-brand-accent/85
+                  bg-brand-secondary/55
 
                   text-xs
                   font-bold
-                  text-white
-                "
-              >
-                {index + 1}
-              </span>
+                  tabular-nums
 
-              <p
-                className="
-                  pt-0.5
+                  text-brand-dark
+                "
+            >
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <p
+              className="
+                  pt-1
+
                   text-sm
                   font-medium
                   leading-6
+
                   text-brand-text/80
 
                   sm:text-base
                   sm:leading-7
                 "
-              >
-                {item}
-              </p>
-            </li>
-          ))}
-        </ol>
-      </article>
-    );
-  }
+            >
+              {item}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </article>
+  );
+};
 
-  if (slide.type === "functions") {
-    return (
-      <article>
-        <p
-          className="
-            text-[11px]
-            font-bold
-            uppercase
-            tracking-[0.18em]
-            text-brand-accent
+/**
+ * Functions slide.
+ */
+const FunctionsSlide = ({ slide }) => {
+  return (
+    <article>
+      <SlideHeader eyebrow={slide.eyebrow} title={slide.title} />
 
-            sm:text-xs
-          "
-        >
-          {slide.eyebrow}
-        </p>
+      <div
+        className="
+          mt-6
 
-        <h3
-          className="
-            mt-2
-            text-xl
-            font-bold
-            tracking-tight
-            text-brand-text
+          divide-y
+          divide-brand-dark/10
+        "
+      >
+        {slide.items.map((item, index) => (
+          <section
+            key={item.id || item.title}
+            className="
+                grid
+                grid-cols-[2.25rem_1fr]
 
-            sm:text-2xl
-          "
-        >
-          {slide.title}
-        </h3>
+                gap-3
 
-        <div
-          className="
-            mt-5
-            space-y-4
-          "
-        >
-          {slide.items.map((item) => (
-            <div
-              key={item.title}
-              className="
-                border-b
-                border-brand-text/10
-                pb-4
+                py-4
 
-                last:border-b-0
+                first:pt-0
                 last:pb-0
               "
+          >
+            <span
+              aria-hidden="true"
+              className="
+                  flex
+                  h-9
+                  w-9
+                  items-center
+                  justify-center
+
+                  rounded-xl
+
+                  bg-brand-primary/10
+
+                  text-xs
+                  font-bold
+                  tabular-nums
+
+                  text-brand-primary
+                "
             >
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <div className="min-w-0">
               <h4
                 className="
-                  text-sm
-                  font-bold
-                  text-brand-text
+                    text-sm
+                    font-bold
 
-                  sm:text-base
-                "
+                    text-brand-text
+
+                    sm:text-base
+                  "
               >
                 {item.title}
               </h4>
 
               <p
                 className="
-                  mt-1
-                  text-sm
-                  font-medium
-                  leading-6
-                  text-brand-text/75
-                "
+                    mt-1.5
+
+                    text-sm
+                    font-medium
+                    leading-6
+
+                    text-brand-muted
+
+                    sm:leading-7
+                  "
               >
                 {item.description}
               </p>
             </div>
-          ))}
-        </div>
-      </article>
-    );
-  }
-
-  return null;
+          </section>
+        ))}
+      </div>
+    </article>
+  );
 };
