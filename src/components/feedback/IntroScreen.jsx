@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { motion, useReducedMotion } from "framer-motion";
 
 export const IntroScreen = () => {
@@ -6,18 +7,16 @@ export const IntroScreen = () => {
   return (
     <motion.div
       key="intro-screen"
-      initial={{ opacity: 1 }}
-      exit={
-        shouldReduceMotion
-          ? { opacity: 0 }
-          : {
-              opacity: 0,
-              scale: 1.01,
-            }
-      }
+      initial={false}
+      animate={{
+        opacity: 1,
+      }}
+      exit={{
+        opacity: 0,
+      }}
       transition={{
-        duration: shouldReduceMotion ? 0.15 : 0.3,
-        ease: "easeOut",
+        duration: shouldReduceMotion ? 0.15 : 0.45,
+        ease: "easeInOut",
       }}
       className="
         fixed
@@ -31,6 +30,7 @@ export const IntroScreen = () => {
         justify-center
 
         overflow-hidden
+
         bg-brand-bg
 
         px-6
@@ -47,85 +47,118 @@ export const IntroScreen = () => {
         "
       >
         {/* Base */}
-        <div className="absolute inset-0 bg-brand-bg" />
-
-        {/* Botanical glow */}
         <div
           className="
             absolute
-            -left-40
-            -top-40
+            inset-0
 
-            h-120
-            w-120
-
-            rounded-full
-            bg-brand-primary/18
-
-            blur-[120px]
+            bg-brand-bg
           "
         />
 
-        {/* Warm glow */}
+        {/* Top-left soft green atmosphere */}
         <div
           className="
             absolute
-            -bottom-44
-            -right-40
 
-            h-128
-            w-lg
+            -left-48
+            -top-48
+
+            h-[32rem]
+            w-[32rem]
 
             rounded-full
-            bg-brand-accent/22
 
-            blur-[130px]
+            bg-brand-primary/15
+
+            blur-[140px]
           "
         />
 
-        {/* Center soft light */}
+        {/* Bottom-right warm atmosphere */}
         <div
           className="
             absolute
+
+            -bottom-52
+            -right-48
+
+            h-[34rem]
+            w-[34rem]
+
+            rounded-full
+
+            bg-brand-accent/15
+
+            blur-[150px]
+          "
+        />
+
+        {/* Center light */}
+        <div
+          className="
+            absolute
+
             left-1/2
             top-1/2
 
-            h-128
-            w-lg
+            h-[28rem]
+            w-[28rem]
 
             -translate-x-1/2
             -translate-y-1/2
 
             rounded-full
-            bg-brand-card/35
+
+            bg-brand-card/55
 
             blur-[130px]
           "
         />
 
-        {/* Dot pattern */}
+        {/* Subtle upper line */}
         <div
           className="
             absolute
-            inset-0
-            opacity-[0.08]
+
+            left-1/2
+            top-[18%]
+
+            h-px
+            w-24
+
+            -translate-x-1/2
+
+            bg-brand-dark/10
           "
-          style={{
-            backgroundImage:
-              "radial-gradient(currentColor 1px, transparent 1px)",
-            backgroundSize: "22px 22px",
-            color: "var(--color-brand-text)",
-          }}
+        />
+
+        {/* Subtle lower line */}
+        <div
+          className="
+            absolute
+
+            bottom-[18%]
+            left-1/2
+
+            h-px
+            w-24
+
+            -translate-x-1/2
+
+            bg-brand-dark/10
+          "
         />
       </div>
 
+      {/* Content */}
       <motion.div
         initial={
           shouldReduceMotion
             ? { opacity: 0 }
             : {
                 opacity: 0,
-                y: 12,
+                y: 18,
               }
         }
         animate={{
@@ -133,84 +166,82 @@ export const IntroScreen = () => {
           y: 0,
         }}
         transition={{
-          duration: 0.35,
-          ease: "easeOut",
+          duration: shouldReduceMotion ? 0.15 : 0.65,
+          delay: shouldReduceMotion ? 0 : 0.1,
+          ease: [0.22, 1, 0.36, 1],
         }}
         className="
           relative
           z-10
 
           flex
+          w-full
+          max-w-lg
           flex-col
           items-center
+
           text-center
         "
       >
-        {/* Logo Card */}
+        {/* Logo */}
         <motion.div
           initial={
             shouldReduceMotion
               ? false
               : {
-                  rotate: -2,
-                  scale: 0.94,
+                  opacity: 0,
+                  scale: 0.9,
+                  y: 8,
                 }
           }
           animate={{
-            rotate: 0,
+            opacity: 1,
             scale: 1,
+            y: 0,
           }}
           transition={{
-            duration: 0.4,
-            ease: "easeOut",
+            duration: shouldReduceMotion ? 0 : 0.55,
+            delay: shouldReduceMotion ? 0 : 0.05,
+            ease: [0.22, 1, 0.36, 1],
           }}
           className="
             flex
-            h-28
-            w-28
+            h-24
+            w-24
             items-center
             justify-center
 
-            rounded-2xl
+            overflow-hidden
 
-            border-2
-            border-brand-text/85
+            rounded-full
 
-            bg-brand-card
+            border
+            border-brand-dark/10
 
-            p-3
+            bg-white/70
 
-            shadow-[5px_5px_0_0_var(--color-brand-text)]
+            p-1
 
-            sm:h-32
-            sm:w-32
+            shadow-[0_8px_24px_rgba(32,40,8,0.07)]
+
+            sm:h-28
+            sm:w-28
           "
         >
-          <div
+          <img
+            src="/icons/fkuntar.webp"
+            alt="Logo DPM FK UNTAR"
+            draggable={false}
+            decoding="async"
             className="
               h-full
               w-full
-              overflow-hidden
 
               rounded-full
-
-              border-2
-              border-brand-text/80
-
-              bg-brand-card
+              select-none
+              object-contain
             "
-          >
-            <img
-              src="/icons/dpm-logo.png"
-              alt="Logo DPM FK UNTAR"
-              className="
-                h-full
-                w-full
-                object-contain
-              "
-              decoding="async"
-            />
-          </div>
+          />
         </motion.div>
 
         {/* Identity */}
@@ -220,7 +251,7 @@ export const IntroScreen = () => {
               ? { opacity: 0 }
               : {
                   opacity: 0,
-                  y: 8,
+                  y: 10,
                 }
           }
           animate={{
@@ -228,34 +259,43 @@ export const IntroScreen = () => {
             y: 0,
           }}
           transition={{
-            duration: 0.3,
+            duration: shouldReduceMotion ? 0 : 0.5,
             delay: shouldReduceMotion ? 0 : 0.12,
+            ease: [0.22, 1, 0.36, 1],
           }}
-          className="mt-6"
+          className="
+            mt-6
+
+            flex
+            flex-col
+            items-center
+          "
         >
           <span
             className="
               inline-flex
+              min-h-8
               items-center
               justify-center
 
-              rounded-lg
+              rounded-full
 
-              border-2
-              border-brand-text/80
+              border
+              border-brand-primary/35
 
-              bg-brand-primary
+              bg-brand-secondary/45
 
-              px-3
+              px-4
               py-1.5
 
               text-[10px]
-              font-bold
+              font-extrabold
               uppercase
-              tracking-[0.14em]
-              text-white
+              tracking-[0.18em]
 
-              shadow-[2px_2px_0_0_var(--color-brand-text)]
+              text-brand-dark
+
+              sm:text-[11px]
             "
           >
             Dewan Perwakilan Mahasiswa
@@ -263,14 +303,15 @@ export const IntroScreen = () => {
 
           <h1
             className="
-              mt-4
+              mt-5
 
-              text-xl
-              font-bold
-              tracking-tight
+              text-2xl
+              font-extrabold
+              tracking-[-0.035em]
+
               text-brand-text
 
-              sm:text-2xl
+              sm:text-3xl
             "
           >
             DPM FK UNTAR
@@ -278,31 +319,57 @@ export const IntroScreen = () => {
 
           <p
             className="
-              mt-1
+              mt-2
+
+              max-w-sm
 
               text-xs
-              font-semibold
-              text-brand-text/70
+              font-medium
+              leading-6
+
+              text-brand-muted
 
               sm:text-sm
             "
           >
-            Universitas Tarumanagara
+            Fakultas Kedokteran Universitas Tarumanagara
           </p>
+
+          <div
+            aria-hidden="true"
+            className="
+              mt-6
+
+              h-px
+              w-14
+
+              bg-brand-dark/20
+            "
+          />
         </motion.div>
 
-        {/* Progress */}
+        {/* Loading indicator */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={
+            shouldReduceMotion
+              ? false
+              : {
+                  opacity: 0,
+                }
+          }
+          animate={{
+            opacity: 1,
+          }}
           transition={{
-            delay: shouldReduceMotion ? 0 : 0.25,
-            duration: 0.25,
+            duration: shouldReduceMotion ? 0 : 0.3,
+            delay: shouldReduceMotion ? 0 : 0.15,
           }}
           className="
-            mt-7
+            mt-6
+
             flex
             items-center
+            justify-center
             gap-1.5
           "
           aria-hidden="true"
@@ -314,23 +381,20 @@ export const IntroScreen = () => {
                 shouldReduceMotion
                   ? undefined
                   : {
-                      y: [0, -3, 0],
+                      opacity: [0.3, 1, 0.3],
                     }
               }
               transition={{
-                duration: 0.8,
+                duration: 1.2,
                 repeat: Infinity,
-                delay: item * 0.12,
+                delay: item * 0.18,
                 ease: "easeInOut",
               }}
               className="
-                h-2
-                w-2
+                h-1.5
+                w-1.5
 
-                rounded-sm
-
-                border
-                border-brand-text/70
+                rounded-full
 
                 bg-brand-primary
               "
