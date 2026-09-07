@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { PageWrapper } from "./components/layout/PageWrapper";
 import { MainContent } from "./components/layout/MainContent";
@@ -11,13 +11,9 @@ import { ExternalLinkModal } from "./components/modals/ExternalLinkModal";
 import { useExternalLink } from "./hooks/useExternalLink";
 
 export default function App() {
-  const [showIntro, setShowIntro] = useState(() => {
-    if (typeof window === "undefined") {
-      return false;
-    }
+  const [showIntro, setShowIntro] = useState(true);
 
-    return window.sessionStorage.getItem("dpm-intro-seen") !== "true";
-  });
+  const shouldReduceMotion = useReducedMotion();
 
   const {
     externalLink,
@@ -30,21 +26,17 @@ export default function App() {
    * Intro lifecycle
    */
   useEffect(() => {
-    if (!showIntro) return;
-
     const timer = window.setTimeout(() => {
-      window.sessionStorage.setItem("dpm-intro-seen", "true");
-
       setShowIntro(false);
-    }, 900);
+    }, 1800);
 
     return () => {
       window.clearTimeout(timer);
     };
-  }, [showIntro]);
+  }, []);
 
   /**
-   * Prevent background scrolling
+   * Prevent page scrolling
    * while intro is visible.
    */
   useEffect(() => {
@@ -61,11 +53,37 @@ export default function App() {
 
   return (
     <>
-      <AnimatePresence>{showIntro && <IntroScreen />}</AnimatePresence>
-
-      <PageWrapper>
-        <MainContent onExternalLink={openExternalLink} />
-      </PageWrapper>
+      <AnimatePresence mode="wait" initial={false}>
+        {showIntro ? (
+          <IntroScreen key="intro" />
+        ) : (
+          <motion.div
+            key="main-content"
+            initial={
+              shouldReduceMotion
+                ? {
+                    opacity: 1,
+                  }
+                : {
+                    opacity: 0,
+                    y: 10,
+                  }
+            }
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: shouldReduceMotion ? 0 : 0.5,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <PageWrapper>
+              <MainContent onExternalLink={openExternalLink} />
+            </PageWrapper>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <ExternalLinkModal
         isOpen={externalLink.isOpen}
