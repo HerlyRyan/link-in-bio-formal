@@ -9,6 +9,7 @@ export const FooterComponent = () => {
         border-t
         border-brand-dark/10
         pt-8
+        pb-8
         text-center
       "
     >
