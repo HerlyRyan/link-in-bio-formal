@@ -14,12 +14,16 @@ export const AspirationSection = ({ onClick }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const driveLinks = useMemo(
-    () => mainLinks.filter((link) => link.id.startsWith("google-drive-")),
+  const aspirationLinks = useMemo(
+    () =>
+      mainLinks.filter(
+        (link) =>
+          link.id === "aspirasi-fkuntar" || link.id.startsWith("google-drive-"),
+      ),
     [],
   );
 
-  const handleDriveClick = (link) => {
+  const handleAspirationLinkClick = (link) => {
     setIsModalOpen(false);
 
     onClick?.(link);
@@ -223,9 +227,9 @@ export const AspirationSection = ({ onClick }) => {
 
       <AspirationDriveModal
         isOpen={isModalOpen}
-        links={driveLinks}
+        links={aspirationLinks}
         onClose={() => setIsModalOpen(false)}
-        onSelect={handleDriveClick}
+        onSelect={handleAspirationLinkClick}
       />
     </>
   );
