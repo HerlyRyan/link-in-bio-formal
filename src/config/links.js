@@ -2,18 +2,9 @@
 
 import { AiFillTikTok } from "react-icons/ai";
 
-import { FiFolder, FiInstagram, FiMail, FiMessageSquare } from "react-icons/fi";
+import { FiFolder, FiInstagram, FiMail } from "react-icons/fi";
 
 export const mainLinks = [
-  {
-    id: "aspirasi-fkuntar",
-    title: "Aspirasi FK UNTAR",
-    description: "Sampaikan aspirasi, masukan, maupun permasalahan mahasiswa.",
-    icon: FiMessageSquare,
-    type: "external",
-    url: "https://bit.ly/Aspirasi-blok",
-  },
-
   {
     id: "email",
     title: "Email",
