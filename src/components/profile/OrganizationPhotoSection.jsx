@@ -2,11 +2,17 @@
 
 import { useState } from "react";
 
-import { FiMaximize2 } from "react-icons/fi";
+import {
+  FiMaximize2,
+  FiUsers,
+} from "react-icons/fi";
 
 import { PhotoLightbox } from "./PhotoLightbox";
 
-export const OrganizationPhotoSection = ({ src, alt }) => {
+export const OrganizationPhotoSection = ({
+  src,
+  alt,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -14,9 +20,7 @@ export const OrganizationPhotoSection = ({ src, alt }) => {
       <section
         aria-labelledby="organization-photo-title"
         className="
-          relative
           w-full
-          overflow-hidden
 
           py-6
 
@@ -24,135 +28,11 @@ export const OrganizationPhotoSection = ({ src, alt }) => {
           lg:py-10
         "
       >
-        {/* Photo composition */}
         <div
           className="
-            relative
-
-            flex
-            items-center
-            justify-center
+            w-full
           "
         >
-          {/* Left blurred image */}
-          <div
-            aria-hidden="true"
-            className="
-              absolute
-              left-0
-              top-1/2
-
-              h-[72%]
-              w-[32%]
-
-              -translate-y-1/2
-
-              overflow-hidden
-
-              rounded-2xl
-
-              sm:w-[34%]
-            "
-          >
-            <img
-              src={src}
-              alt=""
-              draggable={false}
-              className="
-                h-full
-                w-full
-
-                scale-110
-
-                select-none
-
-                object-cover
-                object-center
-
-                blur-[7px]
-                saturate-[0.7]
-              "
-            />
-
-            <div
-              className="
-                absolute
-                inset-0
-
-                bg-brand-accent/35
-              "
-            />
-
-            <div
-              className="
-                absolute
-                inset-0
-
-                bg-brand-dark/10
-              "
-            />
-          </div>
-
-          {/* Right blurred image */}
-          <div
-            aria-hidden="true"
-            className="
-              absolute
-              right-0
-              top-1/2
-
-              h-[72%]
-              w-[32%]
-
-              -translate-y-1/2
-
-              overflow-hidden
-
-              rounded-2xl
-
-              sm:w-[34%]
-            "
-          >
-            <img
-              src={src}
-              alt=""
-              draggable={false}
-              className="
-                h-full
-                w-full
-
-                scale-110
-
-                select-none
-
-                object-cover
-                object-center
-
-                blur-[7px]
-                saturate-[0.7]
-              "
-            />
-
-            <div
-              className="
-                absolute
-                inset-0
-
-                bg-brand-accent/35
-              "
-            />
-
-            <div
-              className="
-                absolute
-                inset-0
-
-                bg-brand-dark/10
-              "
-            />
-          </div>
-
-          {/* Main image */}
           <button
             type="button"
             onClick={() => setIsOpen(true)}
@@ -160,21 +40,22 @@ export const OrganizationPhotoSection = ({ src, alt }) => {
             className="
               group
               relative
-              z-10
 
-              w-[76%]
-              max-w-3xl
+              block
+              w-full
 
               overflow-hidden
 
-              rounded-2xl
+              rounded-[1.5rem]
 
               border
               border-brand-dark/10
 
-              bg-brand-card
+              bg-brand-dark
 
-              shadow-[0_14px_35px_rgba(32,40,8,0.12)]
+              text-left
+
+              shadow-[0_16px_40px_rgba(32,40,8,0.14)]
 
               focus-visible:outline-none
               focus-visible:ring-2
@@ -182,10 +63,10 @@ export const OrganizationPhotoSection = ({ src, alt }) => {
               focus-visible:ring-offset-2
               focus-visible:ring-offset-brand-bg
 
-              sm:w-[72%]
-              lg:w-[68%]
+              sm:rounded-[1.75rem]
             "
           >
+            {/* Background photo */}
             <img
               src={src}
               alt={alt}
@@ -194,19 +75,28 @@ export const OrganizationPhotoSection = ({ src, alt }) => {
               className="
                 block
 
-                aspect-[16/9]
+                aspect-[4/5]
 
-                h-auto
+                h-full
                 w-full
 
                 select-none
 
                 object-cover
                 object-center
+
+                transition-transform
+                duration-700
+                ease-out
+
+                group-hover:scale-[1.02]
+
+                sm:aspect-[16/10]
+                lg:aspect-[16/9]
               "
             />
 
-            {/* Inner highlight */}
+            {/* Global darkening */}
             <span
               aria-hidden="true"
               className="
@@ -215,115 +105,249 @@ export const OrganizationPhotoSection = ({ src, alt }) => {
                 absolute
                 inset-0
 
-                rounded-2xl
-
-                ring-1
-                ring-inset
-                ring-white/35
+                bg-brand-text/15
               "
             />
 
-            {/* Lightbox indicator */}
+            {/* Bottom readability gradient */}
+            <span
+              aria-hidden="true"
+              className="
+                pointer-events-none
+
+                absolute
+                inset-0
+
+                bg-linear-to-t
+
+                from-brand-text/90
+                via-brand-text/35
+                to-transparent
+              "
+            />
+
+            {/* Left-side readability layer */}
+            <span
+              aria-hidden="true"
+              className="
+                pointer-events-none
+
+                absolute
+                inset-0
+
+                bg-linear-to-r
+
+                from-brand-text/35
+                via-transparent
+                to-transparent
+              "
+            />
+
+            {/* Inner outline */}
+            <span
+              aria-hidden="true"
+              className="
+                pointer-events-none
+
+                absolute
+                inset-0
+
+                rounded-[1.5rem]
+
+                ring-1
+                ring-inset
+                ring-white/20
+
+                sm:rounded-[1.75rem]
+              "
+            />
+
+            {/* Content */}
+            <div
+              className="
+                absolute
+                inset-x-0
+                bottom-0
+
+                z-10
+
+                p-5
+
+                sm:p-7
+                lg:p-8
+              "
+            >
+              <div
+                className="
+                  max-w-xl
+                "
+              >
+                {/* Eyebrow */}
+                <div
+                  className="
+                    flex
+                    items-center
+                    gap-2
+                  "
+                >
+                  <span
+                    aria-hidden="true"
+                    className="
+                      flex
+                      h-7
+                      w-7
+                      shrink-0
+                      items-center
+                      justify-center
+
+                      rounded-full
+
+                      border
+                      border-white/20
+
+                      bg-white/10
+
+                      text-white
+
+                      backdrop-blur-sm
+
+                      sm:h-8
+                      sm:w-8
+                    "
+                  >
+                    <FiUsers
+                      size={14}
+                    />
+                  </span>
+
+                  <p
+                    className="
+                      text-[9px]
+                      font-bold
+                      uppercase
+                      tracking-[0.2em]
+
+                      text-white/80
+
+                      sm:text-[10px]
+                    "
+                  >
+                    Kebersamaan
+                  </p>
+                </div>
+
+                {/* Heading */}
+                <h2
+                  id="organization-photo-title"
+                  className="
+                    mt-3
+
+                    max-w-md
+
+                    text-2xl
+                    font-extrabold
+                    leading-[1.08]
+                    tracking-[-0.04em]
+
+                    text-white
+
+                    sm:mt-4
+                    sm:text-3xl
+
+                    lg:text-4xl
+                  "
+                >
+                  DPM FK UNTAR
+                </h2>
+
+                {/* Accent line */}
+                <div
+                  aria-hidden="true"
+                  className="
+                    mt-3
+
+                    h-px
+                    w-12
+
+                    bg-brand-secondary/80
+
+                    sm:mt-4
+                    sm:w-16
+                  "
+                />
+
+                {/* Description */}
+                <p
+                  className="
+                    mt-3
+
+                    max-w-lg
+
+                    text-xs
+                    font-medium
+                    leading-5
+
+                    text-white/80
+
+                    sm:mt-4
+                    sm:text-sm
+                    sm:leading-6
+
+                    lg:text-[15px]
+                    lg:leading-7
+                  "
+                >
+                  Bersama menjalankan amanah,
+                  menyuarakan aspirasi, dan
+                  membangun lingkungan
+                  kemahasiswaan yang lebih baik.
+                </p>
+              </div>
+            </div>
+
+            {/* Expand action */}
             <span
               aria-hidden="true"
               className="
                 absolute
-                bottom-3
                 right-3
+                top-3
+
+                z-20
 
                 flex
-                h-9
-                w-9
+                h-10
+                w-10
                 items-center
                 justify-center
 
                 rounded-full
 
-                bg-brand-text/65
+                border
+                border-white/20
+
+                bg-brand-text/35
 
                 text-white
 
-                opacity-0
+                backdrop-blur-md
 
-                backdrop-blur-sm
-
-                transition-opacity
+                transition
                 duration-200
 
-                group-hover:opacity-100
-                group-focus-visible:opacity-100
+                group-hover:bg-brand-text/60
+
+                sm:right-4
+                sm:top-4
+                sm:h-11
+                sm:w-11
               "
             >
-              <FiMaximize2 size={16} />
+              <FiMaximize2
+                size={16}
+              />
             </span>
           </button>
-        </div>
-
-        {/* Photo caption */}
-        <div
-          className="
-            mx-auto
-            mt-7
-            max-w-xl
-
-            px-5
-
-            text-center
-
-            sm:mt-8
-          "
-        >
-          <p
-            className="
-              text-[10px]
-              font-bold
-              uppercase
-              tracking-[0.18em]
-
-              text-brand-primary
-
-              sm:text-[11px]
-            "
-          >
-            Kebersamaan
-          </p>
-
-          <h2
-            id="organization-photo-title"
-            className="
-              mt-2
-
-              text-lg
-              font-bold
-              tracking-[-0.02em]
-
-              text-brand-text
-
-              sm:text-xl
-            "
-          >
-            DPM FK UNTAR
-          </h2>
-
-          <p
-            className="
-              mx-auto
-              mt-2
-
-              max-w-lg
-
-              text-xs
-              font-medium
-              leading-6
-
-              text-brand-muted
-
-              sm:text-sm
-            "
-          >
-            Bersama menjalankan amanah, menyuarakan aspirasi, dan membangun
-            lingkungan kemahasiswaan yang lebih baik.
-          </p>
         </div>
       </section>
 
