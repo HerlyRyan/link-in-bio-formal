@@ -14,8 +14,7 @@ export const visionMissionConfig = {
     {
       id: "aspirasi",
       title: "Aspirasi",
-      description:
-        "Mencari, mengumpulkan, dan menjaring aspirasi mahasiswa.",
+      description: "Mencari, mengumpulkan, dan menjaring aspirasi mahasiswa.",
     },
     {
       id: "advokasi",
@@ -26,14 +25,12 @@ export const visionMissionConfig = {
     {
       id: "legislasi",
       title: "Legislasi",
-      description:
-        "Berwenang mengeluarkan atau mengamandemen produk hukum.",
+      description: "Berwenang mengeluarkan atau mengamandemen produk hukum.",
     },
     {
       id: "budgeting",
       title: "Budgeting",
-      description:
-        "Memeriksa proposal dan LPJ Program Kerja BEM/DPM.",
+      description: "Memeriksa proposal dan LPJ Program Kerja BPM/UKM-F.",
     },
     {
       id: "controlling",
