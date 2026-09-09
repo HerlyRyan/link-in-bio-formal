@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-import { FiX } from "react-icons/fi";
+import { FiEdit3, FiX } from "react-icons/fi";
 
 import { useModalAccessibility } from "../../hooks/useModalAccessibility";
 
@@ -24,7 +24,6 @@ export const AspirationDriveModal = ({
   onSelect,
 }) => {
   const modalRef = useRef(null);
-
   const shouldReduceMotion = useReducedMotion();
 
   useModalAccessibility({
@@ -189,7 +188,7 @@ export const AspirationDriveModal = ({
 
 const ModalHeader = ({ onClose }) => {
   return (
-    <div
+    <header
       className="
         relative
         shrink-0
@@ -197,98 +196,268 @@ const ModalHeader = ({ onClose }) => {
         border-b
         border-brand-dark/10
 
-        px-5
-        py-5
+        bg-brand-card
 
-        sm:px-6
-        sm:py-6
+        p-3
+
+        sm:p-4
       "
     >
-      <div className="pr-14">
-        <p
+      <div
+        className="
+          relative
+          overflow-hidden
+
+          rounded-2xl
+
+          border
+          border-brand-primary/20
+
+          bg-brand-bg/45
+
+          px-4
+          py-4
+
+          sm:px-5
+          sm:py-5
+        "
+      >
+        {/* Decorative elements */}
+        <div
+          aria-hidden="true"
           className="
-            text-[10px]
-            font-bold
-            uppercase
-            tracking-[0.18em]
-
-            text-brand-primary
-
-            sm:text-[11px]
+            pointer-events-none
+            absolute
+            inset-0
+            overflow-hidden
           "
         >
-          Aspirasi Mahasiswa
-        </p>
+          <div
+            className="
+              absolute
+              -right-10
+              -top-12
 
-        <h2
-          id="aspiration-drive-modal-title"
+              h-32
+              w-32
+
+              rounded-full
+
+              border
+              border-brand-primary/10
+
+              bg-brand-secondary/15
+            "
+          />
+
+          <div
+            className="
+              absolute
+              right-3
+              top-8
+
+              h-16
+              w-16
+
+              rounded-full
+
+              border
+              border-brand-primary/10
+            "
+          />
+
+          <div
+            className="
+              absolute
+              -bottom-16
+              -left-12
+
+              h-28
+              w-28
+
+              rounded-full
+
+              bg-brand-primary/5
+            "
+          />
+
+          <div
+            className="
+              absolute
+              bottom-4
+              right-5
+
+              grid
+              grid-cols-3
+              gap-1.5
+
+              opacity-40
+            "
+          >
+            {Array.from({
+              length: 6,
+            }).map((_, index) => (
+              <span
+                key={index}
+                className="
+                  h-1
+                  w-1
+
+                  rounded-full
+
+                  bg-brand-primary
+                "
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Content */}
+        <div
           className="
-            mt-2
+            relative
+            z-10
 
-            text-xl
-            font-bold
-            tracking-[-0.025em]
+            pr-12
 
-            text-brand-text
-
-            sm:text-2xl
+            sm:pr-14
           "
         >
-          Pilih Form Aspirasi
-        </h2>
+          {/* Eyebrow + icon */}
+          <div
+            className="
+              flex
+              items-center
+              gap-2
+            "
+          >
+            <span
+              aria-hidden="true"
+              className="
+                flex
+                h-7
+                w-7
+                shrink-0
+                items-center
+                justify-center
 
-        <p
+                rounded-lg
+
+                border
+                border-brand-primary/15
+
+                bg-brand-secondary/30
+
+                text-brand-primary
+              "
+            >
+              <FiEdit3 size={14} strokeWidth={2} />
+            </span>
+
+            <p
+              className="
+                text-[9px]
+                font-bold
+                uppercase
+                tracking-[0.18em]
+
+                text-brand-primary
+
+                sm:text-[10px]
+              "
+            >
+              Aspirasi Mahasiswa
+            </p>
+          </div>
+
+          {/* Title */}
+          <h2
+            id="aspiration-drive-modal-title"
+            className="
+              mt-2.5
+
+              text-lg
+              font-bold
+              tracking-[-0.025em]
+
+              text-brand-text
+
+              sm:text-xl
+            "
+          >
+            Pilih Form Aspirasi
+          </h2>
+
+          {/* Description */}
+          <p
+            className="
+              mt-1.5
+
+              max-w-sm
+
+              text-xs
+              font-medium
+              leading-5
+
+              text-brand-muted
+
+              sm:text-sm
+              sm:leading-6
+            "
+          >
+            Pilih formulir yang ingin dibuka untuk menyampaikan aspirasi.
+          </p>
+        </div>
+
+        {/* Close button */}
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Tutup modal aspirasi"
           className="
-            mt-2
+            absolute
+            right-3
+            top-3
 
-            text-xs
-            font-medium
-            leading-5
+            z-20
+
+            flex
+            h-10
+            w-10
+            items-center
+            justify-center
+
+            rounded-full
+
+            border
+            border-brand-dark/10
+
+            bg-brand-card/85
 
             text-brand-muted
 
-            sm:text-sm
-            sm:leading-6
+            backdrop-blur-sm
+
+            transition-colors
+            duration-200
+
+            hover:border-brand-primary/20
+            hover:bg-brand-secondary/30
+            hover:text-brand-text
+
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-brand-primary
+            focus-visible:ring-offset-2
+            focus-visible:ring-offset-brand-bg
+
+            sm:h-11
+            sm:w-11
           "
         >
-          Pilih formulir yang ingin dibuka untuk menyampaikan aspirasi.
-        </p>
+          <FiX size={19} aria-hidden="true" />
+        </button>
       </div>
-
-      <button
-        type="button"
-        onClick={onClose}
-        aria-label="Tutup modal aspirasi"
-        className="
-          absolute
-          right-4
-          top-4
-
-          flex
-          h-11
-          w-11
-          items-center
-          justify-center
-
-          rounded-full
-
-          text-brand-muted
-
-          transition-colors
-          duration-200
-
-          hover:bg-brand-secondary/30
-          hover:text-brand-text
-
-          focus-visible:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-brand-primary
-          focus-visible:ring-offset-2
-          focus-visible:ring-offset-brand-card
-        "
-      >
-        <FiX size={20} aria-hidden="true" />
-      </button>
-    </div>
+    </header>
   );
 };
