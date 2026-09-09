@@ -3,6 +3,7 @@ export const profileConfig = {
   badge: "Official Account",
   description:
     "Dewan Perwakilan Mahasiswa Fakultas Kedokteran Universitas Tarumanagara",
+  motto: "Voice to Impact",
 
   logo: {
     src: "/icons/fkuntar.webp",
