@@ -8,7 +8,7 @@ import { ProfileLogo } from "./ProfileLogo";
 export const ProfileHeader = () => {
   const shouldReduceMotion = useReducedMotion();
 
-  const { name, badge, description, logo } = profileConfig;
+  const { name, badge, description, motto, logo } = profileConfig;
 
   return (
     <motion.header
@@ -192,19 +192,63 @@ export const ProfileHeader = () => {
           {description}
         </p>
 
-        {/* Divider */}
-        <div
-          aria-hidden="true"
-          className="
-            mt-6
-
-            h-px
-            w-16
-
-            bg-brand-dark/20
-          "
-        />
+        {/* Motto */}
+        {motto && <ProfileMotto motto={motto} />}
       </div>
     </motion.header>
+  );
+};
+
+const ProfileMotto = ({ motto }) => {
+  return (
+    <div
+      className="
+        mt-7
+
+        w-full
+        max-w-lg
+
+        border-t
+        border-brand-dark/10
+
+        pt-6
+      "
+    >
+      <p
+        className="
+          text-[10px]
+          font-bold
+          uppercase
+          tracking-[0.18em]
+
+          text-brand-primary
+
+          sm:text-[11px]
+        "
+      >
+        Motto
+      </p>
+
+      <p
+        className="
+          mx-auto
+          mt-3
+          max-w-md
+
+          text-base
+          font-semibold
+          leading-7
+
+          tracking-[-0.015em]
+
+          text-brand-text
+
+          sm:text-lg
+          sm:leading-8
+        "
+      >
+        “{motto}”
+      </p>
+    </div>
   );
 };
