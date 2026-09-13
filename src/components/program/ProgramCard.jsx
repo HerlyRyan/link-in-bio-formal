@@ -16,211 +16,155 @@ export const ProgramCard = ({ program }) => {
       <article
         className="
           overflow-hidden
-
-          rounded-[1.75rem]
-
-          border
-          border-brand-dark/10
-
           bg-brand-card
-
-          p-2
-
-          shadow-[0_12px_30px_rgba(32,40,8,0.07)]
-
-          sm:p-2.5
         "
       >
-        {/* Inner frame */}
-        <div
+        {/* Photo */}
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          aria-label={`Perbesar foto ${title}`}
           className="
+            group
+            relative
+
+            block
+            w-full
+
             overflow-hidden
 
-            rounded-[1.35rem]
+            bg-brand-dark
 
-            border
-            border-brand-primary/20
+            text-left
 
-            bg-brand-secondary/20
-
-            p-1.5
-
-            sm:rounded-[1.5rem]
-            sm:p-2
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-inset
+            focus-visible:ring-brand-primary
           "
         >
-          {/* Photo */}
-          <button
-            type="button"
-            onClick={() => setIsOpen(true)}
-            aria-label={`Perbesar foto ${title}`}
+          <img
+            src={image.src}
+            alt={image.alt}
+            loading="lazy"
+            decoding="async"
+            draggable={false}
             className="
-              group
-              relative
+              aspect-[4/3]
 
-              block
+              h-full
               w-full
 
-              overflow-hidden
+              select-none
 
-              rounded-[1.05rem]
+              object-cover
+              object-center
+
+              transition-transform
+              duration-500
+              ease-out
+
+              group-hover:scale-[1.02]
+            "
+          />
+
+          <span
+            aria-hidden="true"
+            className="
+              pointer-events-none
+
+              absolute
+              inset-0
+
+              bg-brand-text/5
+
+              transition-colors
+              duration-200
+
+              group-hover:bg-brand-text/10
+            "
+          />
+
+          <span
+            aria-hidden="true"
+            className="
+              absolute
+              right-3
+              top-3
+
+              flex
+              h-10
+              w-10
+              items-center
+              justify-center
+
+              rounded-full
 
               border
-              border-brand-dark/10
+              border-white/20
 
-              bg-brand-dark
+              bg-brand-text/45
 
-              text-left
+              text-white
 
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-inset
-              focus-visible:ring-brand-primary
+              backdrop-blur-md
 
-              sm:rounded-[1.2rem]
+              transition-colors
+              duration-200
+
+              group-hover:bg-brand-text/70
             "
           >
-            <img
-              src={image.src}
-              alt={image.alt}
-              loading="lazy"
-              decoding="async"
-              draggable={false}
-              className="
-                aspect-[4/3]
+            <FiMaximize2 size={16} />
+          </span>
+        </button>
 
-                h-full
-                w-full
+        {/* Information */}
+        <div
+          className="
+            border-t
+            border-brand-dark/10
 
-                select-none
+            bg-brand-card
 
-                object-cover
-                object-center
+            px-5
+            py-5
 
-                transition-transform
-                duration-500
-                ease-out
-
-                group-hover:scale-[1.02]
-              "
-            />
-
-            {/* Subtle dark layer */}
-            <span
-              aria-hidden="true"
-              className="
-                pointer-events-none
-
-                absolute
-                inset-0
-
-                bg-brand-text/5
-
-                transition-colors
-                duration-200
-
-                group-hover:bg-brand-text/10
-              "
-            />
-
-            {/* Inner image outline */}
-            <span
-              aria-hidden="true"
-              className="
-                pointer-events-none
-
-                absolute
-                inset-0
-
-                rounded-[1.05rem]
-
-                ring-1
-                ring-inset
-                ring-white/15
-
-                sm:rounded-[1.2rem]
-              "
-            />
-
-            {/* Expand */}
-            <span
-              aria-hidden="true"
-              className="
-                absolute
-                right-3
-                top-3
-
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-
-                rounded-full
-
-                border
-                border-white/20
-
-                bg-brand-text/45
-
-                text-white
-
-                backdrop-blur-md
-
-                transition-colors
-                duration-200
-
-                group-hover:bg-brand-text/70
-              "
-            >
-              <FiMaximize2 size={16} />
-            </span>
-          </button>
-
-          {/* Information */}
-          <div
+            sm:px-6
+            sm:py-6
+          "
+        >
+          <p
             className="
-              px-3
-              pb-3
-              pt-5
+              text-[10px]
+              font-extrabold
+              uppercase
+              tracking-[0.18em]
 
-              sm:px-4
-              sm:pb-4
-              sm:pt-6
+              text-brand-primary
+
+              sm:text-[11px]
             "
           >
-            <p
-              className="
-                text-[10px]
-                font-extrabold
-                uppercase
-                tracking-[0.18em]
+            {shortName}
+          </p>
 
-                text-brand-primary
+          <h3
+            className="
+              mt-2
 
-                sm:text-[11px]
-              "
-            >
-              {shortName}
-            </p>
+              text-lg
+              font-bold
+              leading-7
+              tracking-[-0.025em]
 
-            <h3
-              className="
-                mt-2
+              text-brand-text
 
-                text-lg
-                font-bold
-                leading-7
-                tracking-[-0.025em]
-
-                text-brand-text
-
-                sm:text-xl
-              "
-            >
-              {title}
-            </h3>
-          </div>
+              sm:text-xl
+            "
+          >
+            {title}
+          </h3>
         </div>
       </article>
 

@@ -28,9 +28,6 @@ export const OrganizationPhotoSlide = ({ photo }) => {
 
           rounded-[1.5rem]
 
-          border
-          border-brand-dark/10
-
           bg-brand-dark
 
           text-left

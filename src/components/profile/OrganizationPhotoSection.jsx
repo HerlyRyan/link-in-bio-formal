@@ -19,7 +19,6 @@ export const OrganizationPhotoSection = () => {
   const directionRef = useRef(1);
 
   const totalPhotos = organizationPhotos.length;
-
   const activePhoto = organizationPhotos[activeIndex];
 
   const goPrevious = () => {
@@ -64,118 +63,155 @@ export const OrganizationPhotoSection = () => {
         lg:py-10
       "
     >
-      {/* Carousel viewport */}
+      {/* Carousel frame */}
       <div
         className="
-          relative
-
           w-full
           min-w-0
           max-w-full
 
           overflow-hidden
 
-          rounded-[1.5rem]
+          rounded-[1.75rem]
 
-          sm:rounded-[1.75rem]
+          border
+          border-brand-primary/20
+
+          bg-brand-secondary/15
+
+          p-2.5
+
+          shadow-[0_12px_30px_rgba(32,40,8,0.06)]
+
+          sm:p-3
         "
       >
-        <AnimatePresence
-          initial={false}
-          custom={directionRef.current}
-          mode="wait"
-        >
-          <motion.div
-            key={activePhoto.id}
-            custom={directionRef.current}
-            variants={slideVariants}
-            initial={shouldReduceMotion ? false : "enter"}
-            animate="center"
-            exit={shouldReduceMotion ? undefined : "exit"}
-            transition={{
-              duration: shouldReduceMotion ? 0 : 0.3,
-
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="
-              w-full
-              min-w-0
-              max-w-full
-            "
-          >
-            <OrganizationPhotoSlide photo={activePhoto} />
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Navigation */}
-      {totalPhotos > 1 && (
+        {/* Slide viewport */}
         <div
           className="
-            mt-4
+            relative
 
-            flex
-            items-center
-            justify-between
-            gap-4
+            w-full
+            min-w-0
+            max-w-full
+
+            overflow-hidden
+
+            rounded-[1.35rem]
+
           "
         >
-          <CarouselButton
-            label="Foto sebelumnya"
-            icon={FiChevronLeft}
-            onClick={goPrevious}
-          />
+          <AnimatePresence
+            initial={false}
+            custom={directionRef.current}
+            mode="wait"
+          >
+            <motion.div
+              key={activePhoto.id}
+              custom={directionRef.current}
+              variants={slideVariants}
+              initial={shouldReduceMotion ? false : "enter"}
+              animate="center"
+              exit={shouldReduceMotion ? undefined : "exit"}
+              transition={{
+                duration: shouldReduceMotion ? 0 : 0.3,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="
+                w-full
+                min-w-0
+                max-w-full
+              "
+            >
+              <OrganizationPhotoSlide photo={activePhoto} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
+        {/* Navigation */}
+        {totalPhotos > 1 && (
           <div
             className="
               flex
+              w-full
               items-center
-              gap-2
+              justify-between
+              gap-3
+
+              px-1
+              pb-1
+              pt-4
+
+              sm:px-2
+              sm:pb-2
             "
           >
-            {organizationPhotos.map((photo, index) => (
-              <button
-                key={photo.id}
-                type="button"
-                onClick={() => goToPhoto(index)}
-                aria-label={`Tampilkan foto ${index + 1}`}
-                aria-current={index === activeIndex ? "true" : undefined}
-                className={`
-                    h-2
-                    rounded-full
+            <CarouselButton
+              label="Foto sebelumnya"
+              icon={FiChevronLeft}
+              onClick={goPrevious}
+            />
 
-                    transition-all
-                    duration-200
+            {/* Indicators */}
+            <div
+              className="
+                flex
+                items-center
+                justify-center
+                gap-2
+              "
+            >
+              {organizationPhotos.map((photo, index) => {
+                const isActive = index === activeIndex;
 
-                    focus-visible:outline-none
-                    focus-visible:ring-2
-                    focus-visible:ring-brand-primary
-                    focus-visible:ring-offset-2
+                return (
+                  <button
+                    key={photo.id}
+                    type="button"
+                    onClick={() => goToPhoto(index)}
+                    aria-label={`Tampilkan foto ${index + 1}`}
+                    aria-current={isActive ? "true" : undefined}
+                    className={`
+                        h-2
 
-                    ${
-                      index === activeIndex
-                        ? `
-                          w-6
-                          bg-brand-primary
-                        `
-                        : `
-                          w-2
-                          bg-brand-dark/20
-                          hover:bg-brand-dark/35
-                        `
-                    }
-                  `}
-              />
-            ))}
+                        rounded-full
+
+                        transition-all
+                        duration-200
+
+                        focus-visible:outline-none
+                        focus-visible:ring-2
+                        focus-visible:ring-brand-primary
+                        focus-visible:ring-offset-2
+                        focus-visible:ring-offset-brand-secondary
+
+                        ${
+                          isActive
+                            ? `
+                              w-6
+                              bg-brand-primary
+                            `
+                            : `
+                              w-2
+                              bg-brand-dark/20
+
+                              hover:bg-brand-dark/35
+                            `
+                        }
+                      `}
+                  />
+                );
+              })}
+            </div>
+
+            <CarouselButton
+              label="Foto berikutnya"
+              icon={FiChevronRight}
+              onClick={goNext}
+            />
           </div>
-
-          <CarouselButton
-            label="Foto berikutnya"
-            icon={FiChevronRight}
-            onClick={goNext}
-          />
-        </div>
-      )}
+        )}
+      </div>
     </section>
   );
 };
@@ -197,41 +233,43 @@ const slideVariants = {
   }),
 };
 
-const CarouselButton = ({ label, icon: Icon, onClick }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    aria-label={label}
-    className="
-      flex
-      h-11
-      w-11
-      shrink-0
-      items-center
-      justify-center
+const CarouselButton = ({ label, icon: Icon, onClick }) => {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      className="
+        flex
+        h-11
+        w-11
+        shrink-0
+        items-center
+        justify-center
 
-      rounded-full
+        rounded-full
 
-      border
-      border-brand-dark/10
+        border
+        border-brand-dark/10
 
-      bg-brand-card
+        bg-brand-card
 
-      text-brand-text
+        text-brand-text
 
-      transition-colors
-      duration-200
+        transition-colors
+        duration-200
 
-      hover:border-brand-primary/25
-      hover:bg-brand-secondary/25
+        hover:border-brand-primary/25
+        hover:bg-brand-secondary/25
 
-      focus-visible:outline-none
-      focus-visible:ring-2
-      focus-visible:ring-brand-primary
-      focus-visible:ring-offset-2
-      focus-visible:ring-offset-brand-card
-    "
-  >
-    <Icon size={18} aria-hidden="true" />
-  </button>
-);
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-brand-primary
+        focus-visible:ring-offset-2
+        focus-visible:ring-offset-brand-secondary
+      "
+    >
+      <Icon size={18} aria-hidden="true" />
+    </button>
+  );
+};

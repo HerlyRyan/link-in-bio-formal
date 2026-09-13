@@ -3,16 +3,9 @@
 
 import { useRef, useState } from "react";
 
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-} from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-import {
-  FiChevronLeft,
-  FiChevronRight,
-} from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import { programs } from "../../config/programs";
 import { ProgramCard } from "./ProgramCard";
@@ -20,8 +13,7 @@ import { ProgramCard } from "./ProgramCard";
 export const ProgramSection = () => {
   const shouldReduceMotion = useReducedMotion();
 
-  const [activeIndex, setActiveIndex] =
-    useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const directionRef = useRef(1);
 
@@ -31,8 +23,7 @@ export const ProgramSection = () => {
   const goToProgram = (index) => {
     if (index === activeIndex) return;
 
-    directionRef.current =
-      index > activeIndex ? 1 : -1;
+    directionRef.current = index > activeIndex ? 1 : -1;
 
     setActiveIndex(index);
   };
@@ -41,9 +32,7 @@ export const ProgramSection = () => {
     directionRef.current = -1;
 
     setActiveIndex((current) =>
-      current === 0
-        ? totalPrograms - 1
-        : current - 1,
+      current === 0 ? totalPrograms - 1 : current - 1,
     );
   };
 
@@ -51,15 +40,11 @@ export const ProgramSection = () => {
     directionRef.current = 1;
 
     setActiveIndex((current) =>
-      current === totalPrograms - 1
-        ? 0
-        : current + 1,
+      current === totalPrograms - 1 ? 0 : current + 1,
     );
   };
 
-  if (!activeProgram) {
-    return null;
-  }
+  if (!activeProgram) return null;
 
   return (
     <motion.section
@@ -82,9 +67,7 @@ export const ProgramSection = () => {
         amount: 0.1,
       }}
       transition={{
-        duration: shouldReduceMotion
-          ? 0.15
-          : 0.45,
+        duration: shouldReduceMotion ? 0.15 : 0.45,
         ease: "easeOut",
       }}
       aria-labelledby="program-section-title"
@@ -135,126 +118,10 @@ export const ProgramSection = () => {
         </h2>
       </div>
 
-      {/* Carousel */}
-      <div
-        className="
-          mt-8
-
-          w-full
-          min-w-0
-          max-w-full
-
-          sm:mt-10
-        "
-      >
-        {/* Slide viewport */}
-        <div
-          className="
-            relative
-
-            w-full
-            min-w-0
-            max-w-full
-
-            overflow-hidden
-
-            rounded-[1.5rem]
-
-            sm:rounded-[1.75rem]
-          "
-        >
-          <AnimatePresence
-            initial={false}
-            custom={directionRef.current}
-            mode="wait"
-          >
-            <motion.div
-              key={activeProgram.id}
-              custom={directionRef.current}
-              variants={slideVariants}
-              initial={
-                shouldReduceMotion
-                  ? false
-                  : "enter"
-              }
-              animate="center"
-              exit={
-                shouldReduceMotion
-                  ? undefined
-                  : "exit"
-              }
-              transition={{
-                duration: shouldReduceMotion
-                  ? 0
-                  : 0.28,
-                ease: [
-                  0.22,
-                  1,
-                  0.36,
-                  1,
-                ],
-              }}
-              className="
-                w-full
-                min-w-0
-                max-w-full
-              "
-            >
-              <ProgramCard
-                program={activeProgram}
-              />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Navigation */}
-        <div
-          className="
-            mt-4
-
-            flex
-            w-full
-            items-center
-            justify-between
-            gap-3
-          "
-        >
-          <CarouselButton
-            label="Program sebelumnya"
-            icon={FiChevronLeft}
-            onClick={goPrevious}
-          />
-
-          <p
-            className="
-              text-xs
-              font-bold
-              tabular-nums
-              text-brand-muted
-            "
-          >
-            {String(
-              activeIndex + 1,
-            ).padStart(2, "0")}
-            {" / "}
-            {String(totalPrograms).padStart(
-              2,
-              "0",
-            )}
-          </p>
-
-          <CarouselButton
-            label="Program berikutnya"
-            icon={FiChevronRight}
-            onClick={goNext}
-          />
-        </div>
-      </div>
-
       {/* Program selector */}
       <div
         className="
-          mt-6
+          mt-7
 
           w-full
           min-w-0
@@ -288,69 +155,200 @@ export const ProgramSection = () => {
             sm:overflow-x-visible
           "
         >
-          {programs.map(
-            (program, index) => {
-              const isActive =
-                index === activeIndex;
+          {programs.map((program, index) => {
+            const isActive = index === activeIndex;
 
-              return (
-                <button
-                  key={program.id}
-                  type="button"
-                  onClick={() =>
-                    goToProgram(index)
-                  }
-                  aria-pressed={
+            return (
+              <button
+                key={program.id}
+                type="button"
+                onClick={() => goToProgram(index)}
+                aria-pressed={isActive}
+                className={`
+                  shrink-0
+
+                  rounded-full
+
+                  border
+
+                  px-4
+                  py-2.5
+
+                  text-xs
+                  font-bold
+                  uppercase
+                  tracking-[0.08em]
+
+                  transition-colors
+                  duration-200
+
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-brand-primary
+                  focus-visible:ring-offset-2
+                  focus-visible:ring-offset-brand-card
+
+                  ${
                     isActive
+                      ? `
+                        border-brand-primary
+                        bg-brand-primary
+                        text-white
+                      `
+                      : `
+                        border-brand-dark/10
+                        bg-brand-card
+                        text-brand-muted
+
+                        hover:border-brand-primary/25
+                        hover:bg-brand-secondary/20
+                        hover:text-brand-text
+                      `
                   }
-                  className={`
-                    shrink-0
+                `}
+              >
+                {program.shortName}
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-                    rounded-full
+      {/* Carousel frame */}
+      <div
+        className="
+          mt-5
 
-                    border
+          w-full
+          min-w-0
+          max-w-full
 
-                    px-4
-                    py-2.5
+          overflow-hidden
 
-                    text-xs
-                    font-bold
-                    uppercase
-                    tracking-[0.08em]
+          rounded-[1.75rem]
 
-                    transition-colors
-                    duration-200
+          border
+          border-brand-primary/20
 
-                    focus-visible:outline-none
-                    focus-visible:ring-2
-                    focus-visible:ring-brand-primary
-                    focus-visible:ring-offset-2
-                    focus-visible:ring-offset-brand-card
+          bg-brand-secondary/15
 
-                    ${
-                      isActive
-                        ? `
-                          border-brand-primary
-                          bg-brand-primary
-                          text-white
-                        `
-                        : `
-                          border-brand-dark/10
-                          bg-brand-card
-                          text-brand-muted
+          p-2.5
 
-                          hover:border-brand-primary/25
-                          hover:bg-brand-secondary/20
-                          hover:text-brand-text
-                        `
-                    }
-                  `}
-                >
-                  {program.shortName}
-                </button>
-              );
-            },
-          )}
+          shadow-[0_12px_30px_rgba(32,40,8,0.06)]
+
+          sm:p-3
+        "
+      >
+        {/* Slide viewport */}
+        <div
+          className="
+            relative
+
+            w-full
+            min-w-0
+            max-w-full
+
+            overflow-hidden
+
+            rounded-[1.35rem]
+
+            bg-brand-card
+          "
+        >
+          <AnimatePresence
+            initial={false}
+            custom={directionRef.current}
+            mode="wait"
+          >
+            <motion.div
+              key={activeProgram.id}
+              custom={directionRef.current}
+              variants={slideVariants}
+              initial={shouldReduceMotion ? false : "enter"}
+              animate="center"
+              exit={shouldReduceMotion ? undefined : "exit"}
+              transition={{
+                duration: shouldReduceMotion ? 0 : 0.28,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="
+                w-full
+                min-w-0
+                max-w-full
+              "
+            >
+              <ProgramCard program={activeProgram} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Navigation */}
+        <div
+          className="
+            flex
+            w-full
+            items-center
+            justify-between
+            gap-3
+
+            px-1
+            pb-1
+            pt-4
+
+            sm:px-2
+            sm:pb-2
+          "
+        >
+          <CarouselButton
+            label="Program sebelumnya"
+            icon={FiChevronLeft}
+            onClick={goPrevious}
+          />
+
+          <div
+            className="
+              flex
+              items-center
+              gap-2
+            "
+          >
+            <span
+              className="
+                text-sm
+                font-bold
+                tabular-nums
+                text-brand-text
+              "
+            >
+              {String(activeIndex + 1).padStart(2, "0")}
+            </span>
+
+            <span
+              className="
+                text-xs
+                text-brand-muted
+              "
+            >
+              /
+            </span>
+
+            <span
+              className="
+                text-xs
+                font-semibold
+                tabular-nums
+                text-brand-muted
+              "
+            >
+              {String(totalPrograms).padStart(2, "0")}
+            </span>
+          </div>
+
+          <CarouselButton
+            label="Program berikutnya"
+            icon={FiChevronRight}
+            onClick={goNext}
+          />
         </div>
       </div>
     </motion.section>
@@ -374,11 +372,7 @@ const slideVariants = {
   }),
 };
 
-const CarouselButton = ({
-  label,
-  icon: Icon,
-  onClick,
-}) => {
+const CarouselButton = ({ label, icon: Icon, onClick }) => {
   return (
     <button
       type="button"
@@ -414,10 +408,7 @@ const CarouselButton = ({
         focus-visible:ring-offset-brand-card
       "
     >
-      <Icon
-        size={18}
-        aria-hidden="true"
-      />
+      <Icon size={18} aria-hidden="true" />
     </button>
   );
 };
