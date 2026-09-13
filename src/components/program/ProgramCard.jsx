@@ -17,164 +17,210 @@ export const ProgramCard = ({ program }) => {
         className="
           overflow-hidden
 
-          rounded-[1.5rem]
+          rounded-[1.75rem]
 
           border
           border-brand-dark/10
 
           bg-brand-card
 
+          p-2
+
           shadow-[0_12px_30px_rgba(32,40,8,0.07)]
+
+          sm:p-2.5
         "
       >
-        {/* Photo */}
-        <button
-          type="button"
-          onClick={() => setIsOpen(true)}
-          aria-label={`Perbesar foto ${title}`}
-          className="
-            group
-            relative
-
-            block
-            w-full
-
-            overflow-hidden
-
-            bg-brand-dark
-
-            text-left
-
-            focus-visible:outline-none
-            focus-visible:ring-2
-            focus-visible:ring-inset
-            focus-visible:ring-brand-primary
-          "
-        >
-          <img
-            src={image.src}
-            alt={image.alt}
-            loading="lazy"
-            decoding="async"
-            draggable={false}
-            className="
-              aspect-[4/3]
-
-              h-full
-              w-full
-
-              select-none
-
-              object-cover
-              object-center
-
-              transition-transform
-              duration-500
-              ease-out
-
-              group-hover:scale-[1.02]
-            "
-          />
-
-          {/* Subtle dark layer */}
-          <span
-            aria-hidden="true"
-            className="
-              pointer-events-none
-
-              absolute
-              inset-0
-
-              bg-brand-text/5
-
-              transition-colors
-              duration-200
-
-              group-hover:bg-brand-text/10
-            "
-          />
-
-          {/* Expand */}
-          <span
-            aria-hidden="true"
-            className="
-              absolute
-              right-3
-              top-3
-
-              flex
-              h-10
-              w-10
-              items-center
-              justify-center
-
-              rounded-full
-
-              border
-              border-white/20
-
-              bg-brand-text/45
-
-              text-white
-
-              backdrop-blur-md
-
-              transition-colors
-              duration-200
-
-              group-hover:bg-brand-text/70
-            "
-          >
-            <FiMaximize2 size={16} />
-          </span>
-        </button>
-
-        {/* Information */}
+        {/* Inner frame */}
         <div
           className="
-            border-t
-            border-brand-dark/10
+            overflow-hidden
 
-            bg-brand-card
+            rounded-[1.35rem]
 
-            px-5
-            py-5
+            border
+            border-brand-primary/20
 
-            sm:px-6
-            sm:py-6
+            bg-brand-secondary/20
+
+            p-1.5
+
+            sm:rounded-[1.5rem]
+            sm:p-2
           "
         >
-          <p
+          {/* Photo */}
+          <button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            aria-label={`Perbesar foto ${title}`}
             className="
-              text-[10px]
-              font-extrabold
-              uppercase
-              tracking-[0.18em]
+              group
+              relative
 
-              text-brand-primary
+              block
+              w-full
 
-              sm:text-[11px]
+              overflow-hidden
+
+              rounded-[1.05rem]
+
+              border
+              border-brand-dark/10
+
+              bg-brand-dark
+
+              text-left
+
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-inset
+              focus-visible:ring-brand-primary
+
+              sm:rounded-[1.2rem]
             "
           >
-            {shortName}
-          </p>
+            <img
+              src={image.src}
+              alt={image.alt}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+              className="
+                aspect-[4/3]
 
-          <h3
+                h-full
+                w-full
+
+                select-none
+
+                object-cover
+                object-center
+
+                transition-transform
+                duration-500
+                ease-out
+
+                group-hover:scale-[1.02]
+              "
+            />
+
+            {/* Subtle dark layer */}
+            <span
+              aria-hidden="true"
+              className="
+                pointer-events-none
+
+                absolute
+                inset-0
+
+                bg-brand-text/5
+
+                transition-colors
+                duration-200
+
+                group-hover:bg-brand-text/10
+              "
+            />
+
+            {/* Inner image outline */}
+            <span
+              aria-hidden="true"
+              className="
+                pointer-events-none
+
+                absolute
+                inset-0
+
+                rounded-[1.05rem]
+
+                ring-1
+                ring-inset
+                ring-white/15
+
+                sm:rounded-[1.2rem]
+              "
+            />
+
+            {/* Expand */}
+            <span
+              aria-hidden="true"
+              className="
+                absolute
+                right-3
+                top-3
+
+                flex
+                h-10
+                w-10
+                items-center
+                justify-center
+
+                rounded-full
+
+                border
+                border-white/20
+
+                bg-brand-text/45
+
+                text-white
+
+                backdrop-blur-md
+
+                transition-colors
+                duration-200
+
+                group-hover:bg-brand-text/70
+              "
+            >
+              <FiMaximize2 size={16} />
+            </span>
+          </button>
+
+          {/* Information */}
+          <div
             className="
-              mt-2
+              px-3
+              pb-3
+              pt-5
 
-              text-lg
-              font-bold
-              leading-7
-              tracking-[-0.025em]
-
-              text-brand-text
-
-              sm:text-xl
+              sm:px-4
+              sm:pb-4
+              sm:pt-6
             "
           >
-            {title}
-          </h3>
+            <p
+              className="
+                text-[10px]
+                font-extrabold
+                uppercase
+                tracking-[0.18em]
+
+                text-brand-primary
+
+                sm:text-[11px]
+              "
+            >
+              {shortName}
+            </p>
+
+            <h3
+              className="
+                mt-2
+
+                text-lg
+                font-bold
+                leading-7
+                tracking-[-0.025em]
+
+                text-brand-text
+
+                sm:text-xl
+              "
+            >
+              {title}
+            </h3>
+          </div>
         </div>
       </article>
 
