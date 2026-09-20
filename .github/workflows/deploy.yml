@@ -1,38 +1,28 @@
-name: Deploy to Netlify
+name: Vercel Production Deployment
 
 on:
   push:
     branches:
-      - main # Ganti dengan branch utama Anda jika berbeda (misal: master)
+      - main  # Atau 'master', sesuaikan dengan branch utama Anda
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20" # Sesuaikan dengan versi Node.js proyek Anda
-          cache: "npm"
+          node-version: 20
 
-      - name: Install Dependencies & Build
-        run: |
-          npm install
-          npm run build # Sesuaikan dengan command build Anda (misal: vite build atau next build)
+      - name: Install Dependencies
+        run: npm install
 
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v3
-        with:
-          publish-dir: "./dist" # Sesuaikan dengan folder hasil build (misal: .next atau build)
-          production-branch: main
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy from GitHub Actions"
-          enable-pull-request-comment: false
-          enable-commit-comment: true
-          overwrites-pull-request-deploy: true
+      - name: Deploy to Vercel
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: npx vercel --prod --token $VERCEL_TOKEN
