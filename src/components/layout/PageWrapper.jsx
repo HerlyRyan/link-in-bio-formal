@@ -7,7 +7,7 @@ export const PageWrapper = ({ children }) => {
         min-h-dvh
         w-full
 
-        bg-brand-bg
+        bg-brand-primary
 
         px-3
         py-4

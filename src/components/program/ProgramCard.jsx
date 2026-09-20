@@ -9,7 +9,7 @@ import { PhotoLightbox } from "../profile/PhotoLightbox";
 export const ProgramCard = ({ program }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { shortName, title, image } = program;
+  const { shortName, title, description, image } = program;
 
   return (
     <>
@@ -165,6 +165,27 @@ export const ProgramCard = ({ program }) => {
           >
             {title}
           </h3>
+
+          {description && (
+            <p
+              className="
+                mt-3
+
+                max-w-2xl
+
+                text-sm
+                font-medium
+                leading-6
+
+                text-brand-muted
+
+                sm:text-[15px]
+                sm:leading-7
+              "
+            >
+              {description}
+            </p>
+          )}
         </div>
       </article>
 

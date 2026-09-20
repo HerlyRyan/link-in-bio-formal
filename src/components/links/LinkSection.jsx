@@ -78,6 +78,7 @@ export const LinkSection = ({ onLinkClick }) => {
         </p>
       </div>
 
+      {/* Contact links */}
       <div
         className="
           mt-8
@@ -98,64 +99,11 @@ export const LinkSection = ({ onLinkClick }) => {
 const ContactLinkItem = ({ link, onClick }) => {
   const Icon = link.icon;
 
-  const isInstagram = link.variant === "instagram";
-
-  const isTikTok = link.variant === "tiktok";
-
-  let iconStyles = `
-    bg-brand-secondary/55
-    text-brand-primary
-
-    group-hover:bg-brand-secondary
-  `;
-
-  let hoverBorderStyles = "hover:border-brand-primary/30";
-
-  let arrowStyles = `
-    text-brand-muted
-
-    group-hover:text-brand-primary
-  `;
-
-  if (isInstagram) {
-    iconStyles = `
-      bg-brand-accent/20
-      text-brand-accent
-
-      group-hover:bg-brand-accent/30
-    `;
-
-    hoverBorderStyles = "hover:border-brand-accent/40";
-
-    arrowStyles = `
-      text-brand-accent/70
-
-      group-hover:text-brand-accent
-    `;
-  }
-
-  if (isTikTok) {
-    iconStyles = `
-      bg-brand-dark/10
-      text-brand-dark
-
-      group-hover:bg-brand-dark/15
-    `;
-
-    hoverBorderStyles = "hover:border-brand-dark/30";
-
-    arrowStyles = `
-      text-brand-muted
-
-      group-hover:text-brand-dark
-    `;
-  }
-
   return (
     <button
       type="button"
       onClick={() => onClick?.(link)}
-      className={`
+      className="
         group
 
         flex
@@ -179,9 +127,8 @@ const ContactLinkItem = ({ link, onClick }) => {
         transition
         duration-200
 
+        hover:border-brand-primary/30
         hover:bg-white/70
-
-        ${hoverBorderStyles}
 
         focus-visible:outline-none
         focus-visible:ring-2
@@ -190,36 +137,37 @@ const ContactLinkItem = ({ link, onClick }) => {
         focus-visible:ring-offset-brand-bg
 
         sm:px-5
-      `}
+      "
     >
-      <LinkIcon icon={Icon} className={iconStyles} />
+      <LinkIcon icon={Icon} />
 
       <LinkContent link={link} />
 
       <FiArrowUpRight
         size={18}
         aria-hidden="true"
-        className={`
+        className="
           shrink-0
+
+          text-brand-muted
 
           transition
           duration-200
 
           group-hover:-translate-y-0.5
           group-hover:translate-x-0.5
-
-          ${arrowStyles}
-        `}
+          group-hover:text-brand-primary
+        "
       />
     </button>
   );
 };
 
-const LinkIcon = ({ icon: Icon, className = "" }) => {
+const LinkIcon = ({ icon: Icon }) => {
   return (
     <span
       aria-hidden="true"
-      className={`
+      className="
         flex
         h-11
         w-11
@@ -229,11 +177,15 @@ const LinkIcon = ({ icon: Icon, className = "" }) => {
 
         rounded-xl
 
+        bg-brand-primary
+
+        text-white
+
         transition-colors
         duration-200
 
-        ${className}
-      `}
+        group-hover:bg-brand-dark
+      "
     >
       {Icon && <Icon size={20} />}
     </span>
