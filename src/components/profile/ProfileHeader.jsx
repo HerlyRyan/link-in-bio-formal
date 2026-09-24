@@ -10,6 +10,10 @@ export const ProfileHeader = () => {
 
   const { name, badge, description, motto, logo } = profileConfig;
 
+  const nameParts = name.trim().split(" ");
+  const universityName = nameParts.pop();
+  const organizationName = nameParts.join(" ");
+
   return (
     <motion.header
       initial={
@@ -159,18 +163,36 @@ export const ProfileHeader = () => {
           className="
             mt-4
 
-            text-3xl
+            flex
+            flex-col
+            items-center
+
             font-extrabold
+            leading-[1.05]
             tracking-[-0.035em]
 
             text-brand-text
-
-            sm:text-4xl
-
-            lg:text-[2.65rem]
           "
         >
-          {name}
+          <span
+            className="
+              text-3xl
+              sm:text-4xl
+              lg:text-[2.65rem]
+            "
+          >
+            {organizationName}
+          </span>
+
+          <span
+            className="
+              text-3xl
+              sm:text-4xl
+              lg:text-[2.65rem]
+            "
+          >
+            {universityName}
+          </span>
         </h1>
 
         {/* Description */}

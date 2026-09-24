@@ -67,4 +67,15 @@ export const programs = [
       alt: "Studi Banding DPM FK UNTAR",
     },
   },
+  {
+    id: "pemira",
+    shortName: "PEMIRA",
+    title: "PEMIRA",
+    description:
+      "Kegiatan PEMIRA DPM FK UNTAR",
+    image: {
+      src: "/programs/pemira.webp",
+      alt: "PEMIRA DPM FK UNTAR",
+    },
+  },
 ];
